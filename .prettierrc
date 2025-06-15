@@ -1,0 +1,23 @@
+{
+	"useTabs": true,
+	"singleQuote": true,
+	"trailingComma": "none",
+	"printWidth": 100,
+	"plugins": [
+		"prettier-plugin-svelte",
+		"prettier-plugin-tailwindcss",
+		"@trivago/prettier-plugin-sort-imports"
+	],
+	"overrides": [
+		{
+			"files": "*.svelte",
+			"options": {
+				"parser": "svelte"
+			}
+		}
+	],
+	"importOrder": ["^@smkit/*", "^~icons", "^(\\$app)|(\\$env)|(\\$lib)|(\\$ui)", "^\\$", "^[./]"],
+	"importOrderParserPlugins": ["typescript", "decorators-legacy"],
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true
+}
