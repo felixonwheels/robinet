@@ -114,7 +114,9 @@
 			validFiles.push(file);
 		}
 
-		await onUpload(validFiles);
+		if (validFiles.length > 0) {
+			await onUpload(validFiles);
+		}
 
 		uploading = false;
 	};

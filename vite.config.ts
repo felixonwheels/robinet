@@ -1,11 +1,13 @@
+import { defineConfig } from 'vite';
+import devtoolsJson from 'vite-plugin-devtools-json';
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
+import { svelteTesting } from '@testing-library/svelte/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
-import { svelteTesting } from '@testing-library/svelte/vite';
-import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [
+		devtoolsJson(),
 		tailwindcss(),
 		sveltekit(),
 		paraglideVitePlugin({
@@ -37,5 +39,10 @@ export default defineConfig({
 				}
 			}
 		]
+	},
+	resolve: {
+		alias: {
+			'gpx.studio/gpx/src/index': '/node_modules/gpx.studio/gpx/src/index.ts'
+		}
 	}
 });
