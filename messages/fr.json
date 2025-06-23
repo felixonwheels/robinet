@@ -1,4 +1,25 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Hello, {name} from fr!"
+	"hello_world": "Hello, {name} from fr!",
+	"dragAndDrop": "Glissez-déposez votre fichier GPX ici, ou cliquez pour le sélectionner",
+	"fileRestriction": "Vous ne pouvez télécharger qu'un seul fichier",
+	"filePoints": [
+		{
+			"declarations": [
+				"input count",
+				"local countPlural = count: plural"
+			],
+			"selectors": [
+				"countPlural"
+			],
+			"match": {
+				"countPlural=one": "Le fichier contient 1 point",
+				"countPlural=other": "Le fichier contient {count} points"
+			}
+		}
+	],
+	"uploadErrorMaxFileSize": "Taille maximale du fichier dépassée",
+	"uploadErrorMaxFilesUploaded": "Nombre maximal de fichiers téléchargés",
+	"uploadErrorFileTypeNotAllowed": "Type de fichier non autorisé",
+	"uploadErrorFailToUpload": "Échec du téléchargement pour {name} !"
 }

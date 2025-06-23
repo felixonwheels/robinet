@@ -1,15 +1,12 @@
-<!--
-	Installed from @ieedan/shadcn-svelte-extras
--->
-
 <script lang="ts">
 	import { UploadIcon } from '@lucide/svelte';
 	import { useId } from 'bits-ui';
 
+	import { m } from '$lib/paraglide/messages.js';
 	import { cn } from '$lib/utils';
 
 	import { displaySize } from '.';
-	import type { FileDropZoneProps, FileRejectedReason } from './types';
+	import type { FileDropZoneProps } from './types';
 
 	let {
 		id = useId(),
@@ -64,16 +61,19 @@
 		(e.target as HTMLInputElement).value = '';
 	};
 
-	const shouldAcceptFile = (file: File, fileNumber: number): FileRejectedReason | undefined => {
-		if (maxFileSize !== undefined && file.size > maxFileSize) return 'Maximum file size exceeded';
+	const shouldAcceptFile = async (file: File, fileNumber: number): Promise<string | undefined> => {
+		console.log(file.name);
 
-		if (maxFiles !== undefined && fileNumber > maxFiles) return 'Maximum files uploaded';
+		if (maxFileSize !== undefined && file.size > maxFileSize) return m.uploadErrorMaxFileSize();
+
+		if (maxFiles !== undefined && fileNumber > maxFiles) return m.uploadErrorMaxFilesUploaded();
 
 		if (!accept) return undefined;
 
 		const acceptedTypes = accept.split(',').map((a) => a.trim().toLowerCase());
 		const fileType = file.type.toLowerCase();
 		const fileName = file.name.toLowerCase();
+		const fileContent = await file.text();
 
 		const isAcceptable = acceptedTypes.some((pattern) => {
 			// check extension like .mp4
@@ -87,11 +87,22 @@
 				return fileType.startsWith(baseType + '/');
 			}
 
-			// otherwise it must be a specific type like video/mp4
-			return fileType === pattern;
+			if (fileType === pattern) {
+				return true;
+			}
+
+			if (fileContent.startsWith('<?xml') && fileContent.includes('<gpx')) {
+				return true;
+			}
+
+			if (file.name.split('.').pop()?.toLowerCase() === 'gpx') {
+				return true;
+			}
+
+			return false;
 		});
 
-		if (!isAcceptable) return 'File type not allowed';
+		if (!isAcceptable) return m.uploadErrorFileTypeNotAllowed();
 
 		return undefined;
 	};
@@ -104,7 +115,7 @@
 		for (let i = 0; i < uploadFiles.length; i++) {
 			const file = uploadFiles[i];
 
-			const rejectedReason = shouldAcceptFile(file, (fileCount ?? 0) + i + 1);
+			const rejectedReason = await shouldAcceptFile(file, (fileCount ?? 0) + i + 1);
 
 			if (rejectedReason) {
 				onFileRejected?.({ file, reason: rejectedReason });

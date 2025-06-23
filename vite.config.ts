@@ -12,7 +12,17 @@ export default defineConfig({
 		sveltekit(),
 		paraglideVitePlugin({
 			project: './project.inlang',
-			outdir: './src/lib/paraglide'
+			outdir: './src/lib/paraglide',
+			disableAsyncLocalStorage: true,
+			urlPatterns: [
+				{
+					pattern: '/',
+					localized: [
+						['en', '/en/'],
+						['fr', '/fr/']
+					]
+				}
+			]
 		})
 	],
 	test: {

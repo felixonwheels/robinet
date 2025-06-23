@@ -2,7 +2,7 @@
 	Installed from @ieedan/shadcn-svelte-extras
 */
 import FileDropZone from './file-drop-zone.svelte';
-import { type FileDropZoneProps, type FileRejectedReason } from './types';
+import { type FileDropZoneProps } from './types';
 
 export const displaySize = (bytes: number): string => {
 	if (bytes < KILOBYTE) return `${bytes.toFixed(0)} B`;
@@ -25,4 +25,4 @@ export const ACCEPT_IMAGE = 'image/*';
 export const ACCEPT_VIDEO = 'video/*';
 export const ACCEPT_AUDIO = 'audio/*';
 
-export { FileDropZone, type FileRejectedReason, type FileDropZoneProps };
+export { FileDropZone, type FileDropZoneProps };

@@ -1,13 +1,8 @@
+import type { HTMLInputAttributes } from 'svelte/elements';
 /*
 	Installed from @ieedan/shadcn-svelte-extras
 */
 import type { WithChildren } from 'bits-ui';
-import type { HTMLInputAttributes } from 'svelte/elements';
-
-export type FileRejectedReason =
-	| 'Maximum file size exceeded'
-	| 'File type not allowed'
-	| 'Maximum files uploaded';
 
 export type FileDropZonePropsWithoutHTML = WithChildren<{
 	ref?: HTMLInputElement | null;
@@ -22,7 +17,7 @@ export type FileDropZonePropsWithoutHTML = WithChildren<{
 	/** The maximum size of a file in bytes */
 	maxFileSize?: number;
 	/** Called when a file does not meet the upload criteria (size, or type) */
-	onFileRejected?: (opts: { reason: FileRejectedReason; file: File }) => void;
+	onFileRejected?: (opts: { reason: string; file: File }) => void;
 
 	// just for extra documentation
 	/** Takes a comma separated list of one or more file types.
