@@ -1,8 +1,8 @@
-import type { HTMLInputAttributes } from 'svelte/elements';
 /*
 	Installed from @ieedan/shadcn-svelte-extras
 */
 import type { WithChildren } from 'bits-ui';
+import type { HTMLInputAttributes } from 'svelte/elements';
 
 export type FileDropZonePropsWithoutHTML = WithChildren<{
 	ref?: HTMLInputElement | null;

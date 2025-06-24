@@ -5,13 +5,8 @@
 	"fileRestriction": "You can upload only one file",
 	"filePoints": [
 		{
-			"declarations": [
-				"input count",
-				"local countPlural = count: plural"
-			],
-			"selectors": [
-				"countPlural"
-			],
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
 			"match": {
 				"countPlural=one": "The file countains 1 point",
 				"countPlural=other": "The file countains {count} points"
@@ -21,5 +16,6 @@
 	"uploadErrorMaxFileSize": "Maximum file size exceeded",
 	"uploadErrorMaxFilesUploaded": "Maximum files uploaded",
 	"uploadErrorFileTypeNotAllowed": "File type not allowed",
-	"uploadErrorFailToUpload": "{name} failed to upload!"
+	"uploadErrorFailToUpload": "{name} failed to upload!",
+	"downloadNewGpx": "Download the new GPX"
 }

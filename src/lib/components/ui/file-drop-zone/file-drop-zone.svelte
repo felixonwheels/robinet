@@ -62,8 +62,6 @@
 	};
 
 	const shouldAcceptFile = async (file: File, fileNumber: number): Promise<string | undefined> => {
-		console.log(file.name);
-
 		if (maxFileSize !== undefined && file.size > maxFileSize) return m.uploadErrorMaxFileSize();
 
 		if (maxFiles !== undefined && fileNumber > maxFiles) return m.uploadErrorMaxFilesUploaded();

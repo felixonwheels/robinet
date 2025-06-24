@@ -13,14 +13,16 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run"
+		"test": "npm run test:unit -- --run",
+		"deploy": "pnpx wrangler pages deploy build"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
 		"@eslint/js": "^9.18.0",
+		"@internationalized/date": "^3.8.1",
 		"@lucide/svelte": "^0.515.0",
 		"@svelte-maplibre-gl/pmtiles": "^1.0.0",
-		"@sveltejs/adapter-auto": "^6.0.0",
+		"@sveltejs/adapter-cloudflare": "^7.0.4",
 		"@sveltejs/kit": "^2.16.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"@tailwindcss/forms": "^0.5.9",
@@ -29,7 +31,8 @@
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/svelte": "^5.2.4",
 		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
-		"bits-ui": "^2.6.2",
+		"@types/file-saver": "^2.0.7",
+		"bits-ui": "^2.8.8",
 		"clsx": "^2.1.1",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
@@ -60,6 +63,7 @@
 	},
 	"dependencies": {
 		"@inlang/paraglide-js": "^2.0.0",
+		"file-saver": "^2.0.5",
 		"mode-watcher": "^1.0.8"
 	},
 	"pnpm": {

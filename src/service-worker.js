@@ -1,24 +1,19 @@
 //install the service worker
 self.addEventListener('install', (event) => {
-	console.log('Service Worker installing.');
 	event.waitUntil(self.skipWaiting()); // Activate worker immediately
 });
 
 //activate the service worker
 self.addEventListener('activate', (event) => {
-	console.log('Service Worker activating.');
 	event.waitUntil(self.clients.claim()); // Become available to all pages
 });
 
 //intercept fetch requests for pmtiles files to respond from local static file
 self.addEventListener('fetch', (event) => {
 	const request = event.request;
-	console.log('Service Worker handling network request for: ', request.url);
-	console.log(new URL(request.url).pathname);
 
 	//this is a hacky way to verify that the service worker is intercepting fetch requests, called in React before rendering the map
 	if (new URL(request.url).pathname === '/checkSw') {
-		console.log('returning A-OK');
 		return event.respondWith(
 			new Response('A-OK', {
 				status: 202, // Use 200 to indicate successful response
@@ -144,7 +139,6 @@ async function fetchPmtilesFile(path) {
 		return cachedResponse.arrayBuffer();
 	}
 
-	console.log('Fetching from network');
 	const response = await fetch(path);
 	const responseClone = response.clone();
 	const responseBuffer = await response.arrayBuffer();

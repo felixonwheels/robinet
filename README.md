@@ -36,3 +36,9 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## Downloading pmtiles
+
+> pmtiles extract https://build.protomaps.com/20250624.pmtiles world8.pmtiles --maxzoom=8
+
+> node split.cjs

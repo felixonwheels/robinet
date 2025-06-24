@@ -1,10 +1,10 @@
-import adapter from '@sveltejs/adapter-auto';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from '@sveltejs/adapter-cloudflare';
 import { mdsvex } from 'mdsvex';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 const config = {
 	preprocess: [vitePreprocess(), mdsvex()],
-	kit: { adapter: adapter() },
+	kit: { adapter: adapter({ pages: 'build' }) },
 	extensions: ['.svelte', '.svx']
 };
 
