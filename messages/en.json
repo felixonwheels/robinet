@@ -1,21 +1,27 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Hello, {name} from en!",
-	"dragAndDrop": "Drag 'n' drop your GPX file here, or click to select it",
-	"fileRestriction": "You can upload only one file",
+	"hello_world": "hello, {name} from en!",
+	"dragAndDrop": "drag 'n' drop your GPX file here, or click to select it",
+	"fileRestriction": "you can upload only one file",
 	"filePoints": [
 		{
-			"declarations": ["input count", "local countPlural = count: plural"],
-			"selectors": ["countPlural"],
+			"declarations": [
+				"input count",
+				"local countPlural = count: plural"
+			],
+			"selectors": [
+				"countPlural"
+			],
 			"match": {
-				"countPlural=one": "The file countains 1 point",
-				"countPlural=other": "The file countains {count} points"
+				"countPlural=one": "the file countains 1 point",
+				"countPlural=other": "the file countains {count} points"
 			}
 		}
 	],
-	"uploadErrorMaxFileSize": "Maximum file size exceeded",
-	"uploadErrorMaxFilesUploaded": "Maximum files uploaded",
-	"uploadErrorFileTypeNotAllowed": "File type not allowed",
+	"uploadErrorMaxFileSize": "maximum file size exceeded",
+	"uploadErrorMaxFilesUploaded": "maximum files uploaded",
+	"uploadErrorFileTypeNotAllowed": "file type not allowed",
 	"uploadErrorFailToUpload": "{name} failed to upload!",
-	"downloadNewGpx": "Download the new GPX"
+	"downloadNewGpx": "download the new GPX",
+	"titleLead": "add water sources around your GPX track as waypoints and stay hydrated"
 }

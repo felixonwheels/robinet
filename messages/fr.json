@@ -1,21 +1,27 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"hello_world": "Hello, {name} from fr!",
-	"dragAndDrop": "Glissez-déposez votre fichier GPX ici, ou cliquez pour le sélectionner",
-	"fileRestriction": "Vous ne pouvez télécharger qu'un seul fichier",
+	"dragAndDrop": "glissez-déposez votre fichier GPX ici, ou cliquez pour le sélectionner",
+	"fileRestriction": "vous ne pouvez télécharger qu'un seul fichier",
 	"filePoints": [
 		{
-			"declarations": ["input count", "local countPlural = count: plural"],
-			"selectors": ["countPlural"],
+			"declarations": [
+				"input count",
+				"local countPlural = count: plural"
+			],
+			"selectors": [
+				"countPlural"
+			],
 			"match": {
-				"countPlural=one": "Le fichier contient 1 point",
-				"countPlural=other": "Le fichier contient {count} points"
+				"countPlural=one": "le fichier contient 1 point",
+				"countPlural=other": "le fichier contient {count} points"
 			}
 		}
 	],
-	"uploadErrorMaxFileSize": "Taille maximale du fichier dépassée",
-	"uploadErrorMaxFilesUploaded": "Nombre maximal de fichiers téléchargés",
-	"uploadErrorFileTypeNotAllowed": "Type de fichier non autorisé",
-	"uploadErrorFailToUpload": "Échec du téléchargement pour {name} !",
-	"downloadNewGpx": "Télécharger le nouveau fichier GPX"
+	"uploadErrorMaxFileSize": "taille maximale du fichier dépassée",
+	"uploadErrorMaxFilesUploaded": "nombre maximal de fichiers téléchargés",
+	"uploadErrorFileTypeNotAllowed": "type de fichier non autorisé",
+	"uploadErrorFailToUpload": "échec du téléchargement pour {name} !",
+	"downloadNewGpx": "télécharger le nouveau fichier GPX",
+	"titleLead": "ajoutez les sources d'eau autour de votre tracé GPX et restez hydratés"
 }
