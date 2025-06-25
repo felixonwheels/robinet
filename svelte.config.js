@@ -1,6 +1,6 @@
 import adapter from '@sveltejs/adapter-cloudflare';
-import { mdsvex } from 'mdsvex';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { mdsvex } from 'mdsvex';
 
 const config = {
 	preprocess: [vitePreprocess(), mdsvex()],

@@ -7,7 +7,7 @@ export const style: StyleSpecification = {
 			type: 'vector',
 			attribution:
 				'<a href="https://github.com/protomaps/basemaps">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>',
-			url: 'pmtiles://world.pmtiles'
+			url: 'pmtiles://https://pub-1c9d519d6dab470bb3e4a9acc86da34b.r2.dev/world11.pmtiles'
 		}
 	},
 	layers: [
