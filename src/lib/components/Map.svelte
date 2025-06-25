@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { PMTilesProtocol } from '@svelte-maplibre-gl/pmtiles';
+	import type { Feature, MultiPolygon, Polygon } from 'geojson';
 	import { LngLat, LngLatBounds, Map } from 'maplibre-gl';
 	import {
+		FillLayer,
 		GeoJSONSource,
 		GlobeControl,
 		LineLayer,
@@ -11,21 +13,21 @@
 		ScaleControl
 	} from 'svelte-maplibre-gl';
 
-	import { route } from '$lib/state/route.svelte';
+	import { file, tracks, tracksBuffers } from '$lib/state.svelte';
 	import { style } from '$lib/style';
 
 	let map: Map | undefined = $state();
 
 	$effect(() => {
-		if (route?.file() !== null) {
-			let bounds = route.file()?.[0].getStatistics().global.bounds;
+		if (file.value !== null) {
+			let bounds = file.value?.[0].getStatistics().global.bounds;
 
 			let sw = new LngLat(bounds?.southWest.lon ?? 0, bounds?.southWest.lat ?? 0);
 			let ne = new LngLat(bounds?.northEast.lon ?? 0, bounds?.northEast.lat ?? 0);
 			let llb = new LngLatBounds(sw, ne);
 
 			map?.fitBounds(llb, {
-				padding: 40,
+				padding: 80,
 				animate: true
 			});
 		}
@@ -39,15 +41,8 @@
 	<ScaleControl />
 	<GlobeControl />
 	<Projection type="globe" />
-	{#each route.file()?.[0].trk ?? [] as track}
-		<GeoJSONSource
-			data={{
-				type: 'LineString',
-				coordinates: track
-					.getTrackPoints()
-					.map((point) => [point.attributes.lon, point.attributes.lat])
-			}}
-		>
+	{#each tracks.value as track}
+		<GeoJSONSource data={track}>
 			<LineLayer
 				paint={{
 					'line-color': '#2e86de',
@@ -59,5 +54,23 @@
 				}}
 			/>
 		</GeoJSONSource>
+	{/each}
+	{#each tracksBuffers.value as tracksBuffer}
+		{#if tracksBuffer !== undefined}
+			<GeoJSONSource data={tracksBuffer as Feature<Polygon | MultiPolygon>}>
+				<FillLayer
+					paint={{
+						'fill-color': '#00ff55',
+						'fill-opacity': 0.1
+					}}
+				/>
+				<LineLayer
+					paint={{
+						'line-color': '#00ff55',
+						'line-width': 1
+					}}
+				/>
+			</GeoJSONSource>
+		{/if}
 	{/each}
 </MapLibre>

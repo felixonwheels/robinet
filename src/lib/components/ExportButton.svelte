@@ -4,15 +4,11 @@
 	import { slide } from 'svelte/transition';
 
 	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label/index.js';
-	import { Slider } from '$lib/components/ui/slider/index.js';
 	import { m } from '$lib/paraglide/messages.js';
-	import { route } from '$lib/state/route.svelte';
-
-	let bufferSize = $state(10);
+	import { file } from '$lib/state.svelte';
 
 	async function download() {
-		const fileData = route.file();
+		const fileData = file.value;
 
 		if (fileData !== null && fileData.length > 0) {
 			const blob = new Blob([gpx.buildGPX(fileData[0], [])], { type: 'application/gpx+xml' });
@@ -22,11 +18,8 @@
 	}
 </script>
 
-{#if route?.file() !== null}
+{#if file.value !== null}
 	<div transition:slide>
-		<Label for="bufferSize">{bufferSize}</Label>
-		<Slider id="bufferSize" type="single" bind:value={bufferSize} max={100} min={1} step={1} />
-
 		<div class="flex place-content-center py-6">
 			<Button onClickPromise={download} size="lg">{m.downloadNewGpx()}</Button>
 		</div>

@@ -6,7 +6,7 @@
 
 	import { FileDropZone, type FileDropZoneProps } from '$lib/components/ui/file-drop-zone';
 	import { m } from '$lib/paraglide/messages.js';
-	import { route } from '$lib/state/route.svelte';
+	import { file } from '$lib/state.svelte';
 
 	import Button from './ui/button/button.svelte';
 
@@ -17,7 +17,7 @@
 
 		const g = gpx.parseGPX(content);
 
-		route.setFile([g]);
+		file.setValue([g]);
 
 		const pointCount =
 			g.trk?.reduce((sum, trk) => {
@@ -32,14 +32,14 @@
 	};
 </script>
 
-{#if route?.file() === null}
+{#if file.value === null}
 	<div transition:slide>
 		<FileDropZone
 			{onUpload}
 			{onFileRejected}
 			maxFiles={1}
 			accept=".gpx"
-			fileCount={route?.file()?.length ?? 0}
+			fileCount={file.value !== null ? 1 : 0}
 		>
 			<div class="flex flex-col place-items-center justify-center gap-2">
 				<div
@@ -65,13 +65,13 @@
 		class="border-border flex w-full place-items-center justify-between rounded-lg border-2 border-dashed p-4 transition-all"
 	>
 		<span class="text-muted-foreground font-medium overflow-auto">
-			{route?.file()?.[0]?.metadata?.name ?? '-'}
+			{file.value[0]?.metadata?.name ?? '-'}
 		</span>
 		<Button
 			variant="outline"
 			size="icon"
 			onclick={() => {
-				route?.setFile(null);
+				file.setValue(null);
 			}}
 		>
 			<XIcon />

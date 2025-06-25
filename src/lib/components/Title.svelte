@@ -1,13 +1,20 @@
 <script>
+	import { slide } from 'svelte/transition';
+
 	import { m } from '$lib/paraglide/messages';
+	import { file } from '$lib/state.svelte';
 </script>
 
-<h2
-	class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
->
-	💧 robinet
-</h2>
+{#if file.value === null}
+	<div transition:slide>
+		<h2 class="scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
+			💧 robinet
+		</h2>
+	</div>
 
-<p class="text-muted-foreground text-xl">
-	{m.titleLead()}
-</p>
+	<div transition:slide>
+		<p class="text-muted-foreground text-l">
+			{m.titleLead()}
+		</p>
+	</div>
+{/if}
