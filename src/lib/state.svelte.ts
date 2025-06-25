@@ -26,7 +26,7 @@ export const tracks = {
 	}
 };
 
-let bufferSizeValue = $state(10);
+let bufferSizeValue = $state(1);
 
 export const bufferSize = {
 	get value() {
@@ -36,8 +36,6 @@ export const bufferSize = {
 		bufferSizeValue = value;
 	}
 };
-
-type FeatureOrNothing = Feature<Polygon | MultiPolygon> | undefined;
 
 const tracksBuffersValue = $derived.by<FeatureOrNothing[]>(() => {
 	return tracks.value.map((track) =>
@@ -50,5 +48,30 @@ const tracksBuffersValue = $derived.by<FeatureOrNothing[]>(() => {
 export const tracksBuffers = {
 	get value() {
 		return tracksBuffersValue;
+	}
+};
+
+export function geojsonPolygonToOverpassPoly(feature: Feature<Polygon>): string {
+	return feature.geometry.coordinates[0].map(([lon, lat]) => `${lat} ${lon}`).join(' ');
+}
+
+const overpassPolygonsValue = $derived<string[]>(
+	tracksBuffers.value.map((track) => geojsonPolygonToOverpassPoly(track as Feature<Polygon>))
+);
+
+export const overpassPolygons = {
+	get value() {
+		return overpassPolygonsValue;
+	}
+};
+
+let waterSourcesValue = $state<WaterSource[] | null>(null);
+
+export const waterSources = {
+	get value() {
+		return waterSourcesValue;
+	},
+	setValue(value: WaterSource[] | null) {
+		waterSourcesValue = value;
 	}
 };

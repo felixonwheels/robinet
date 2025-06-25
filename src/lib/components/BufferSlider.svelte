@@ -2,7 +2,6 @@
 	import { slide } from 'svelte/transition';
 
 	import * as Card from '$lib/components/ui/card/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 	import { m } from '$lib/paraglide/messages';
 	import { file } from '$lib/state.svelte';
@@ -17,17 +16,17 @@
 			</Card.Header>
 
 			<Card.Content>
-				<div class="flex place-content-center w-full">
+				<div class="flex place-content-center w-full overflow-auto">
 					<ToggleGroup.Root
 						type="single"
 						size="lg"
 						onValueChange={(e) => bufferSize.setValue(+e)}
-						value="10"
+						value="1"
 						class="border"
 					>
-						{#each [0.2, 0.5, 0.8, 1, 2, 3, 4, 5, 10, 15, 20] as step}
+						{#each [0.5, 1, 2, 3, 4, 5, 10, 20] as step}
 							<ToggleGroup.Item value={step.toString()} aria-label={`Toggle ${step.toString()}`}>
-								<p class="text-md font-semibold sm:px-2">{step.toString()}</p>
+								<p class="text-md sm:text-lg font-semibold sm:px-2">{step.toString()}</p>
 							</ToggleGroup.Item>
 						{/each}
 					</ToggleGroup.Root>

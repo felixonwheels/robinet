@@ -6,7 +6,7 @@
 
 	import { FileDropZone, type FileDropZoneProps } from '$lib/components/ui/file-drop-zone';
 	import { m } from '$lib/paraglide/messages.js';
-	import { file } from '$lib/state.svelte';
+	import { file, waterSources } from '$lib/state.svelte';
 
 	import Button from './ui/button/button.svelte';
 
@@ -72,6 +72,7 @@
 			size="icon"
 			onclick={() => {
 				file.setValue(null);
+				waterSources.setValue(null);
 			}}
 		>
 			<XIcon />

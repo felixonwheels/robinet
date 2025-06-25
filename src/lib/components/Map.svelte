@@ -8,15 +8,18 @@
 		GlobeControl,
 		LineLayer,
 		MapLibre,
+		Marker,
 		NavigationControl,
+		Popup,
 		Projection,
 		ScaleControl
 	} from 'svelte-maplibre-gl';
 
-	import { file, tracks, tracksBuffers } from '$lib/state.svelte';
+	import { file, overpassPolygons, tracks, tracksBuffers, waterSources } from '$lib/state.svelte';
 	import { style } from '$lib/style';
 
 	let map: Map | undefined = $state();
+	let openedPopup: number | null = $state(null);
 
 	$effect(() => {
 		if (file.value !== null) {
@@ -31,6 +34,37 @@
 				animate: true
 			});
 		}
+	});
+
+	$effect(() => {
+		(async () => {
+			if (overpassPolygons.value.length) {
+				try {
+					const query = `
+					[out:json][timeout:25];
+					(node["amenity"="drinking_water"](poly:"${overpassPolygons.value}");
+					way["amenity"="drinking_water"](poly:"${overpassPolygons.value}");
+					relation["amenity"="drinking_water"](poly:"${overpassPolygons.value}"););
+					out center;
+					`;
+
+					const url = 'https://overpass-api.de/api/interpreter';
+
+					const res = await fetch(url, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+						body: new URLSearchParams({ data: query }).toString()
+					});
+					const data = await res.json();
+
+					waterSources.setValue(data.elements as WaterSource[]);
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			}
+		})();
 	});
 </script>
 
@@ -73,4 +107,23 @@
 			</GeoJSONSource>
 		{/if}
 	{/each}
+	{#if waterSources.value !== null}
+		{#each waterSources.value as waterSource}
+			<Marker lnglat={{ lng: waterSource.lon, lat: waterSource.lat }}>
+				{#snippet content()}
+					<div class="text-center leading-none">
+						<div class="text-xl">💧</div>
+					</div>
+				{/snippet}
+				<Popup
+					class="text-black"
+					open={waterSource.id === openedPopup}
+					onopen={() => (openedPopup = waterSource.id)}
+					onclose={() => (openedPopup = null)}
+				>
+					<span class="text-lg">{waterSource.tags.amenity}</span>
+				</Popup>
+			</Marker>
+		{/each}
+	{/if}
 </MapLibre>
