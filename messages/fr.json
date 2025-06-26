@@ -5,8 +5,13 @@
 	"fileRestriction": "vous ne pouvez télécharger qu'un seul fichier",
 	"filePoints": [
 		{
-			"declarations": ["input count", "local countPlural = count: plural"],
-			"selectors": ["countPlural"],
+			"declarations": [
+				"input count",
+				"local countPlural = count: plural"
+			],
+			"selectors": [
+				"countPlural"
+			],
 			"match": {
 				"countPlural=one": "le fichier contient 1 point",
 				"countPlural=other": "le fichier contient {count} points"
@@ -17,7 +22,35 @@
 	"uploadErrorMaxFilesUploaded": "nombre maximal de fichiers téléchargés",
 	"uploadErrorFileTypeNotAllowed": "type de fichier non autorisé",
 	"uploadErrorFailToUpload": "échec du téléchargement pour {name} !",
-	"downloadNewGpx": "télécharger le nouveau fichier GPX",
 	"titleLead": "ajoutez les sources d'eau autour de votre tracé GPX et restez hydratés",
-	"bufferSize": "Taille du boyau en km"
+	"bufferSize": "taille du boyau",
+	"waterSourceCount": [
+		{
+			"declarations": [
+				"input count",
+				"local countPlural = count: plural"
+			],
+			"selectors": [
+				"countPlural"
+			],
+			"match": {
+				"countPlural=one": "point d'eau ajouté",
+				"countPlural=other": "points d'eau ajoutés"
+			}
+		}
+	],
+	"downloadNewGpx": [
+		{
+			"declarations": [
+				"input count",
+				"input countPlural"
+			],
+			"selectors": [
+				"countPlural"
+			],
+			"match": [
+				"télécharger le nouveau fichier GPX"
+			]
+		}
+	]
 }

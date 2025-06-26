@@ -1,13 +1,18 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+	import { LanguageSwitcher } from '$lib/components/ui/language-switcher';
 	import { m } from '$lib/paraglide/messages';
-	import { getLocale, locales, setLocale } from '$lib/paraglide/runtime';
+	import { getLocale, setLocale } from '$lib/paraglide/runtime';
 	import type { Locale } from '$lib/paraglide/runtime';
 	import { file } from '$lib/state.svelte';
 
-	const flags = { en: '🇬🇧', fr: '🇫🇷' };
+	let value = $state(getLocale());
+
+	const languages = [
+		{ code: 'en', label: '🇬🇧' },
+		{ code: 'fr', label: '🇫🇷' }
+	];
 </script>
 
 {#if file.value === null}
@@ -18,19 +23,15 @@
 			>
 				💧 robinet
 			</h2>
-			<ToggleGroup.Root
-				type="single"
-				size="lg"
-				variant="outline"
-				onValueChange={(e) => setLocale(e as Locale)}
-				value={getLocale()}
-			>
-				{#each locales as locale}
-					<ToggleGroup.Item value={locale} aria-label={`Toggle ${locale}`}>
-						<p class="text-md sm:text-lg font-semibold sm:px-2">{flags[locale]}</p>
-					</ToggleGroup.Item>
-				{/each}
-			</ToggleGroup.Root>
+			<LanguageSwitcher
+				{languages}
+				onChange={(locale) => {
+					if (locale !== getLocale() && !!locale) {
+						setLocale(locale as Locale);
+					}
+				}}
+				bind:value
+			/>
 		</div>
 	</div>
 

@@ -7,7 +7,7 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { FileDropZone, type FileDropZoneProps } from '$lib/components/ui/file-drop-zone';
 	import { m } from '$lib/paraglide/messages.js';
-	import { file, waterSources } from '$lib/state.svelte';
+	import { file, selectedWaterSources, waterSources } from '$lib/state.svelte';
 
 	import Button from './ui/button/button.svelte';
 
@@ -72,6 +72,7 @@
 				onclick={() => {
 					file.setValue(null);
 					waterSources.setValue(null);
+					selectedWaterSources.setSelectedWaterSources(null);
 				}}
 			>
 				<XIcon />

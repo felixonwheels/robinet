@@ -5,8 +5,13 @@
 	"fileRestriction": "you can upload only one file",
 	"filePoints": [
 		{
-			"declarations": ["input count", "local countPlural = count: plural"],
-			"selectors": ["countPlural"],
+			"declarations": [
+				"input count",
+				"local countPlural = count: plural"
+			],
+			"selectors": [
+				"countPlural"
+			],
 			"match": {
 				"countPlural=one": "the file countains 1 point",
 				"countPlural=other": "the file countains {count} points"
@@ -19,5 +24,20 @@
 	"uploadErrorFailToUpload": "{name} failed to upload!",
 	"downloadNewGpx": "download the new GPX",
 	"titleLead": "add water sources around your GPX track as waypoints and stay hydrated",
-	"bufferSize": "Buffer size in km"
+	"bufferSize": "buffer size",
+	"waterSourceCount": [
+		{
+			"declarations": [
+				"input count",
+				"local countPlural = count: plural"
+			],
+			"selectors": [
+				"countPlural"
+			],
+			"match": {
+				"countPlural=one": "water source added",
+				"countPlural=other": "water sources added"
+			}
+		}
+	]
 }

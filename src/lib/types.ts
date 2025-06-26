@@ -1,9 +1,11 @@
-type FeatureOrNothing = Feature<Polygon | MultiPolygon> | undefined;
+import type { Feature, MultiPolygon, Polygon } from 'geojson';
 
-interface WaterSource {
+export type FeatureOrNothing = Feature<Polygon | MultiPolygon> | undefined;
+
+export interface WaterSource {
 	type: string;
 	id: number;
 	lat: number;
 	lon: number;
-	tags: { amenity: string };
+	tags: object;
 }

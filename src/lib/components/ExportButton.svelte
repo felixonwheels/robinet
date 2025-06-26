@@ -6,6 +6,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { m } from '$lib/paraglide/messages.js';
 	import { file } from '$lib/state.svelte';
+	import { waterSources } from '$lib/state.svelte';
 
 	async function download() {
 		const fileData = file.value;
@@ -18,9 +19,9 @@
 	}
 </script>
 
-{#if file.value !== null}
+{#if waterSources.value?.length}
 	<div transition:slide>
-		<div class="flex place-content-center py-6">
+		<div class="flex place-content-center py-6 overflow-auto">
 			<Button onClickPromise={download} size="lg">{m.downloadNewGpx()}</Button>
 		</div>
 	</div>

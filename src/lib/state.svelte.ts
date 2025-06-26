@@ -75,3 +75,25 @@ export const waterSources = {
 		waterSourcesValue = value;
 	}
 };
+
+let selectedWaterSourcesValue = $state<Set<number> | null>(null);
+
+export const selectedWaterSources = {
+	get value() {
+		return selectedWaterSourcesValue;
+	},
+	setSelectedWaterSources(waterSources: WaterSource[] | null) {
+		if (waterSources === null) {
+			selectedWaterSourcesValue = null;
+		} else {
+			selectedWaterSourcesValue = new Set(waterSources.map((waterSource) => waterSource.id) ?? []);
+		}
+	},
+	toggleWaterSource(id: number) {
+		if (selectedWaterSourcesValue?.has(id)) {
+			selectedWaterSourcesValue = new Set([...selectedWaterSourcesValue].filter((x) => x !== id));
+		} else {
+			selectedWaterSourcesValue = new Set([...(selectedWaterSourcesValue ?? new Set()), id]);
+		}
+	}
+};
