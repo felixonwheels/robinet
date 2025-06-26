@@ -19,10 +19,10 @@
 				<div class="flex place-content-center w-full overflow-auto">
 					<ToggleGroup.Root
 						type="single"
+						variant="outline"
 						size="lg"
 						onValueChange={(e) => bufferSize.setValue(+e)}
 						value="1"
-						class="border"
 					>
 						{#each [0.5, 1, 2, 3, 4, 5, 10, 20] as step}
 							<ToggleGroup.Item value={step.toString()} aria-label={`Toggle ${step.toString()}`}>

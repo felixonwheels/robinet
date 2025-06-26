@@ -4,6 +4,7 @@
 	import { toast } from 'svelte-sonner';
 	import { slide } from 'svelte/transition';
 
+	import * as Card from '$lib/components/ui/card/index.js';
 	import { FileDropZone, type FileDropZoneProps } from '$lib/components/ui/file-drop-zone';
 	import { m } from '$lib/paraglide/messages.js';
 	import { file, waterSources } from '$lib/state.svelte';
@@ -60,22 +61,21 @@
 		</FileDropZone>
 	</div>
 {:else}
-	<div
-		transition:slide
-		class="border-border flex w-full place-items-center justify-between rounded-lg border-2 border-dashed p-4 transition-all"
-	>
-		<span class="text-muted-foreground font-medium overflow-auto">
-			{file.value[0]?.metadata?.name ?? '-'}
-		</span>
-		<Button
-			variant="outline"
-			size="icon"
-			onclick={() => {
-				file.setValue(null);
-				waterSources.setValue(null);
-			}}
-		>
-			<XIcon />
-		</Button>
-	</div>
+	<Card.Root>
+		<Card.Content class="flex w-full place-items-center justify-between">
+			<span class="text-muted-foreground font-medium overflow-auto">
+				{file.value[0]?.metadata?.name ?? '-'}
+			</span>
+			<Button
+				variant="outline"
+				size="icon"
+				onclick={() => {
+					file.setValue(null);
+					waterSources.setValue(null);
+				}}
+			>
+				<XIcon />
+			</Button>
+		</Card.Content>
+	</Card.Root>
 {/if}

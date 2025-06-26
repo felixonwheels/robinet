@@ -15,6 +15,7 @@
 		ScaleControl
 	} from 'svelte-maplibre-gl';
 
+	import * as Card from '$lib/components/ui/card/index.js';
 	import { file, overpassPolygons, tracks, tracksBuffers, waterSources } from '$lib/state.svelte';
 	import { style } from '$lib/style';
 
@@ -70,60 +71,64 @@
 
 <PMTilesProtocol />
 
-<MapLibre bind:map class="h-[55vh] rounded-lg" zoom={1} maxZoom={18} {style}>
-	<NavigationControl />
-	<ScaleControl />
-	<GlobeControl />
-	<Projection type="globe" />
-	{#each tracks.value as track}
-		<GeoJSONSource data={track}>
-			<LineLayer
-				paint={{
-					'line-color': '#2e86de',
-					'line-width': 2
-				}}
-				layout={{
-					'line-join': 'round',
-					'line-cap': 'round'
-				}}
-			/>
-		</GeoJSONSource>
-	{/each}
-	{#each tracksBuffers.value as tracksBuffer}
-		{#if tracksBuffer !== undefined}
-			<GeoJSONSource data={tracksBuffer as Feature<Polygon | MultiPolygon>}>
-				<FillLayer
-					paint={{
-						'fill-color': '#00ff55',
-						'fill-opacity': 0.1
-					}}
-				/>
-				<LineLayer
-					paint={{
-						'line-color': '#00ff55',
-						'line-width': 1
-					}}
-				/>
-			</GeoJSONSource>
-		{/if}
-	{/each}
-	{#if waterSources.value !== null}
-		{#each waterSources.value as waterSource}
-			<Marker lnglat={{ lng: waterSource.lon, lat: waterSource.lat }}>
-				{#snippet content()}
-					<div class="text-center leading-none">
-						<div class="text-xl">💧</div>
-					</div>
-				{/snippet}
-				<Popup
-					class="text-black"
-					open={waterSource.id === openedPopup}
-					onopen={() => (openedPopup = waterSource.id)}
-					onclose={() => (openedPopup = null)}
-				>
-					<span class="text-lg">{waterSource.tags.amenity}</span>
-				</Popup>
-			</Marker>
-		{/each}
-	{/if}
-</MapLibre>
+<Card.Root class="w-full p-0">
+	<Card.Content class="p-0">
+		<MapLibre bind:map class="h-[55vh] rounded-xl" zoom={1} maxZoom={18} {style}>
+			<NavigationControl />
+			<ScaleControl />
+			<GlobeControl />
+			<Projection type="globe" />
+			{#each tracks.value as track}
+				<GeoJSONSource data={track}>
+					<LineLayer
+						paint={{
+							'line-color': '#2e86de',
+							'line-width': 2
+						}}
+						layout={{
+							'line-join': 'round',
+							'line-cap': 'round'
+						}}
+					/>
+				</GeoJSONSource>
+			{/each}
+			{#each tracksBuffers.value as tracksBuffer}
+				{#if tracksBuffer !== undefined}
+					<GeoJSONSource data={tracksBuffer as Feature<Polygon | MultiPolygon>}>
+						<FillLayer
+							paint={{
+								'fill-color': '#00ff55',
+								'fill-opacity': 0.1
+							}}
+						/>
+						<LineLayer
+							paint={{
+								'line-color': '#00ff55',
+								'line-width': 1
+							}}
+						/>
+					</GeoJSONSource>
+				{/if}
+			{/each}
+			{#if waterSources.value !== null}
+				{#each waterSources.value as waterSource}
+					<Marker lnglat={{ lng: waterSource.lon, lat: waterSource.lat }}>
+						{#snippet content()}
+							<div class="text-center leading-none">
+								<div class="text-xl">💧</div>
+							</div>
+						{/snippet}
+						<Popup
+							class="text-black"
+							open={waterSource.id === openedPopup}
+							onopen={() => (openedPopup = waterSource.id)}
+							onclose={() => (openedPopup = null)}
+						>
+							<span class="text-lg">{waterSource.tags.amenity}</span>
+						</Popup>
+					</Marker>
+				{/each}
+			{/if}
+		</MapLibre>
+	</Card.Content>
+</Card.Root>
