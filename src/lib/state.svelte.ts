@@ -1,6 +1,8 @@
 import { buffer } from '@turf/turf';
-import type { Feature, GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
+import type { Feature, GeoJsonProperties, Geometry, Polygon } from 'geojson';
 import * as gpx from 'gpx.studio/gpx/src/index';
+
+import type { FeatureOrNothing } from './types';
 
 let fileValue = $state<gpx.GPXFile[] | null>(null);
 

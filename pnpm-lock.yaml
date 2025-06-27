@@ -7,16 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@inlang/paraglide-js':
-        specifier: ^2.0.0
-        version: 2.1.0
-      file-saver:
-        specifier: ^2.0.5
-        version: 2.0.5
-      mode-watcher:
-        specifier: ^1.0.8
-        version: 1.0.8(svelte@5.34.3)
     devDependencies:
       '@eslint/compat':
         specifier: ^1.2.5
@@ -24,6 +14,9 @@ importers:
       '@eslint/js':
         specifier: ^9.18.0
         version: 9.29.0
+      '@inlang/paraglide-js':
+        specifier: ^2.1.0
+        version: 2.1.0
       '@internationalized/date':
         specifier: ^3.8.1
         version: 3.8.2
@@ -87,6 +80,9 @@ importers:
       fast-xml-parser:
         specifier: ^5.2.5
         version: 5.2.5
+      file-saver:
+        specifier: ^2.0.5
+        version: 2.0.5
       globals:
         specifier: ^16.0.0
         version: 16.2.0
@@ -105,6 +101,9 @@ importers:
       mdsvex:
         specifier: ^0.12.3
         version: 0.12.6(svelte@5.34.3)
+      mode-watcher:
+        specifier: ^1.0.8
+        version: 1.0.8(svelte@5.34.3)
       prettier:
         specifier: ^3.4.2
         version: 3.5.3
