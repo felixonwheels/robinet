@@ -86,12 +86,6 @@ importers:
       globals:
         specifier: ^16.0.0
         version: 16.2.0
-      gpx.studio:
-        specifier: github:gpxstudio/gpx.studio
-        version: https://codeload.github.com/gpxstudio/gpx.studio/tar.gz/a9ea0e223d925f964c274deb4d558d88f1246f3c
-      immer:
-        specifier: ^10.1.1
-        version: 10.1.1
       jsdom:
         specifier: ^26.0.0
         version: 26.1.0
@@ -1748,10 +1742,6 @@ packages:
     resolution: {integrity: sha512-O+7l9tPdHCU320IigZZPj5zmRCFG9xHmx9cU8FqU2Rp+JN714seHV+2S9+JslCpY4gJwU2vOGox0wzgae/MCEg==}
     engines: {node: '>=18'}
 
-  gpx.studio@https://codeload.github.com/gpxstudio/gpx.studio/tar.gz/a9ea0e223d925f964c274deb4d558d88f1246f3c:
-    resolution: {tarball: https://codeload.github.com/gpxstudio/gpx.studio/tar.gz/a9ea0e223d925f964c274deb4d558d88f1246f3c}
-    version: 0.0.0
-
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
@@ -1796,9 +1786,6 @@ packages:
   ignore@7.0.5:
     resolution: {integrity: sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg==}
     engines: {node: '>= 4'}
-
-  immer@10.1.1:
-    resolution: {integrity: sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==}
 
   import-fresh@3.3.1:
     resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}
@@ -5127,8 +5114,6 @@ snapshots:
 
   globals@16.2.0: {}
 
-  gpx.studio@https://codeload.github.com/gpxstudio/gpx.studio/tar.gz/a9ea0e223d925f964c274deb4d558d88f1246f3c: {}
-
   graceful-fs@4.2.11: {}
 
   graphemer@1.4.0: {}
@@ -5166,8 +5151,6 @@ snapshots:
   ignore@5.3.2: {}
 
   ignore@7.0.5: {}
-
-  immer@10.1.1: {}
 
   import-fresh@3.3.1:
     dependencies:

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { PMTilesProtocol } from '@svelte-maplibre-gl/pmtiles';
+	import type { Position } from 'geojson';
 	import { LngLat, LngLatBounds, Map } from 'maplibre-gl';
 	import { mode } from 'mode-watcher';
 	import {
@@ -16,22 +17,32 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { bufferSize, file, overpassPolygons } from '$lib/state.svelte';
 	import { styleDark, styleLight } from '$lib/style';
+	import { computeMapBounds } from '$lib/utils';
 
 	let map: Map | undefined = $state();
 	let style = $derived(mode.current === 'dark' ? styleDark : styleLight);
 
 	$effect(() => {
 		if (file.value !== null) {
-			let bounds = file.value?.[0].getStatistics().global.bounds;
+			let bounds = computeMapBounds(
+				(file.value?.trk ?? []).flatMap(
+					(track) =>
+						track.trkseg?.flatMap((seg) =>
+							seg.trkpt.map((pt) => [pt.attributes.lon, pt.attributes.lat] as Position)
+						) ?? []
+				)
+			);
 
-			let sw = new LngLat(bounds?.southWest.lon ?? 0, bounds?.southWest.lat ?? 0);
-			let ne = new LngLat(bounds?.northEast.lon ?? 0, bounds?.northEast.lat ?? 0);
-			let llb = new LngLatBounds(sw, ne);
+			if (bounds != null) {
+				let sw = new LngLat(bounds.attributes.minlon ?? 0, bounds.attributes.minlat ?? 0);
+				let ne = new LngLat(bounds.attributes.maxlon ?? 0, bounds.attributes.maxlat ?? 0);
+				let llb = new LngLatBounds(sw, ne);
 
-			map?.fitBounds(llb, {
-				padding: 80,
-				animate: true
-			});
+				map?.fitBounds(llb, {
+					padding: 80,
+					animate: true
+				});
+			}
 		}
 	});
 </script>

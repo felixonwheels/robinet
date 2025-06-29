@@ -2,29 +2,29 @@ import type { WaterSource } from './types';
 
 export const api = () => ({
 	getWaterSources: async (poly: string[], signal: AbortSignal) => {
-		const query = `
-			[out:json][timeout:60];
+		let query = '[out:json][timeout:60];(';
 
-			(
-			node["amenity"="drinking_water"](poly:"${poly}");
-			way["amenity"="drinking_water"](poly:"${poly}");
-			relation["amenity"="drinking_water"](poly:"${poly}");
+		for (const p of poly) {
+			query += `
+				node["amenity"="drinking_water"](poly:"${p}");
+				way["amenity"="drinking_water"](poly:"${p}");
+				relation["amenity"="drinking_water"](poly:"${p}");
 
-			node["amenity"="toilets"]["drinking_water"~"^(yes|designated)$"](poly:"${poly}");
-			way["amenity"="toilets"]["drinking_water"~"^(yes|designated)$"](poly:"${poly}");
-			relation["amenity"="toilets"]["drinking_water"~"^(yes|designated)$"](poly:"${poly}");
+				node["amenity"="toilets"]["drinking_water"~"^(yes|designated)$"](poly:"${p}");
+				way["amenity"="toilets"]["drinking_water"~"^(yes|designated)$"](poly:"${p}");
+				relation["amenity"="toilets"]["drinking_water"~"^(yes|designated)$"](poly:"${p}");
 
-			node["man_made"="water_tap"]["drinking_water"~"^(yes|designated)$"](poly:"${poly}");
-			way["man_made"="water_tap"]["drinking_water"~"^(yes|designated)$"](poly:"${poly}");
+				node["man_made"="water_tap"]["drinking_water"~"^(yes|designated)$"](poly:"${p}");
+				way["man_made"="water_tap"]["drinking_water"~"^(yes|designated)$"](poly:"${p}");
 
-			node["natural"="spring"]["drinking_water"~"^(yes|designated)$"](poly:"${poly}");
-			node["amenity"="fountain"]["drinking_water"~"^(yes|designated)$"](poly:"${poly}");
+				node["natural"="spring"]["drinking_water"~"^(yes|designated)$"](poly:"${p}");
+				node["amenity"="fountain"]["drinking_water"~"^(yes|designated)$"](poly:"${p}");
 
-			node["man_made"="standpipe"]["drinking_water"~"^(yes|designated)$"](poly:"${poly}");
-			);
-			
-			out center;
-		`;
+				node["man_made"="standpipe"]["drinking_water"~"^(yes|designated)$"](poly:"${p}");
+			`;
+		}
+
+		query += '); out center;';
 
 		const url = 'https://overpass-api.de/api/interpreter';
 

@@ -29,5 +29,6 @@
 				"countPlural=other": "water sources added"
 			}
 		}
-	]
+	],
+	"waterSource": "water source"
 }

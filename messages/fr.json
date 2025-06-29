@@ -18,7 +18,7 @@
 	"uploadErrorFileTypeNotAllowed": "type de fichier non autorisé",
 	"uploadErrorFailToUpload": "échec du téléchargement pour {name} !",
 	"titleLead": "ajoutez les sources d'eau autour de votre tracé GPX et restez hydratés",
-	"bufferSize": "taille du tamon",
+	"bufferSize": "taille du tampon",
 	"waterSourceCount": [
 		{
 			"declarations": ["input count", "local countPlural = count: plural"],
@@ -29,11 +29,6 @@
 			}
 		}
 	],
-	"downloadNewGpx": [
-		{
-			"declarations": ["input count", "input countPlural"],
-			"selectors": ["countPlural"],
-			"match": ["télécharger le nouveau fichier GPX"]
-		}
-	]
+	"downloadNewGpx": "télécharger le nouveau fichier GPX",
+	"waterSource": "source d'eau"
 }

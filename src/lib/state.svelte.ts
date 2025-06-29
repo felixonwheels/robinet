@@ -1,25 +1,30 @@
 import { buffer } from '@turf/turf';
-import type { Feature, GeoJsonProperties, Geometry, Polygon } from 'geojson';
-import * as gpx from 'gpx.studio/gpx/src/index';
+import type { Feature, GeoJsonProperties, Geometry, LineString, Polygon, Position } from 'geojson';
 
-import type { FeatureOrNothing, WaterSource } from './types';
+import type { FeatureOrNothing, GPXBuildData, WaterSource } from './types';
 
-let fileValue = $state<gpx.GPXFile[] | null>(null);
+let fileValue = $state<GPXBuildData | null>(null);
 
 export const file = {
 	get value() {
 		return fileValue;
 	},
-	setValue(value: gpx.GPXFile[] | null) {
+	setValue(value: GPXBuildData | null) {
 		fileValue = value;
 	}
 };
 
 const tracksValue = $derived<GeoJSON.GeoJSON[]>(
-	(file.value?.[0].trk ?? []).map((track) => ({
-		type: 'LineString',
-		coordinates: track.getTrackPoints().map((point) => [point.attributes.lon, point.attributes.lat])
-	}))
+	(file.value?.trk ?? []).map(
+		(track) =>
+			({
+				type: 'LineString',
+				coordinates:
+					track.trkseg?.flatMap((seg) =>
+						seg.trkpt.map((pt) => [pt.attributes.lon, pt.attributes.lat] as Position)
+					) ?? []
+			}) as LineString
+	)
 );
 
 export const tracks = {

@@ -38,10 +38,10 @@
 			<div class="p-2 text-sm font-sans text-gray-800">
 				<Skeleton class="h-4 w-12" />
 			</div>
-		{:then sources}
+		{:then _}
 			<div class="p-2 text-sm font-sans text-gray-800">
-				{sources.length}
-				{m.waterSourceCount({ count: sources.length ?? 0 })}
+				{selectedWaterSources.value?.size ?? 0}
+				{m.waterSourceCount({ count: selectedWaterSources.value?.size ?? 0 })}
 			</div>
 		{:catch error}
 			<p style="color: red">{error.message}</p>
