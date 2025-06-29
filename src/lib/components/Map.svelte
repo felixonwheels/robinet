@@ -3,13 +3,7 @@
 	import type { Position } from 'geojson';
 	import { LngLat, LngLatBounds, Map } from 'maplibre-gl';
 	import { mode } from 'mode-watcher';
-	import {
-		FullScreenControl,
-		GlobeControl,
-		MapLibre,
-		NavigationControl,
-		Projection
-	} from 'svelte-maplibre-gl';
+	import { MapLibre, NavigationControl, Projection } from 'svelte-maplibre-gl';
 
 	import BufferSizeDropdown from '$lib/components/BufferSizeDropdown.svelte';
 	import Tracks from '$lib/components/Tracks.svelte';
@@ -53,9 +47,7 @@
 	<Card.Content class="p-0">
 		<MapLibre bind:map class="h-[55vh] rounded-xl" zoom={1} maxZoom={18} {style}>
 			<NavigationControl />
-			<GlobeControl />
 			<Projection type="globe" />
-			<FullScreenControl position="top-right" />
 			<Tracks />
 			<BufferSizeDropdown />
 			{#if overpassPolygons.value.length}

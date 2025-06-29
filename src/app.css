@@ -119,3 +119,22 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+@media (prefers-color-scheme: dark) {
+	.maplibregl-ctrl-group {
+		background-color: var(--color-muted-foreground) !important;
+	}
+
+	.maplibregl-ctrl-group button {
+		background-color: var(--color-muted-foreground) !important;
+		border-radius: 0.2rem;
+	}
+
+	.maplibregl-ctrl-group button + button {
+		border-top: 0px solid transparent !important;
+	}
+
+	.maplibregl-ctrl-attrib {
+		background-color: var(--color-muted-foreground) !important;
+	}
+}

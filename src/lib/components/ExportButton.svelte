@@ -70,7 +70,7 @@
 {#if (selectedWaterSources.value?.size ?? 0) > 0}
 	<div transition:slide>
 		<div class="flex place-content-center py-6 overflow-auto">
-			<Button onClickPromise={download} size="lg">{m.downloadNewGpx()}</Button>
+			<Button variant="outline" onClickPromise={download} size="lg">{m.downloadNewGpx()}</Button>
 		</div>
 	</div>
 {/if}

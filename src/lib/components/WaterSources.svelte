@@ -40,7 +40,9 @@
 				<Spinner />
 			</div>
 		{:then _}
-			<div class="p-2 text-sm font-sans text-gray-800">
+			<div
+				class="p-2 text-sm font-sans dark:bg-muted-foreground dark:text-primary-foreground rounded"
+			>
 				{selectedWaterSources.value?.size ?? 0}
 				{m.waterSourceCount({ count: selectedWaterSources.value?.size ?? 0 })}
 			</div>

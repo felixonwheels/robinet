@@ -143,7 +143,7 @@
 	for={id}
 	aria-disabled={!canUploadFiles}
 	class={cn(
-		'border-border hover:bg-accent/25 flex h-48 w-full place-items-center justify-center rounded-lg border-2 border-dashed p-6 transition-all hover:cursor-pointer aria-disabled:opacity-50 aria-disabled:hover:cursor-not-allowed',
+		'border-border hover:bg-accent/25 flex w-full place-items-center justify-center rounded-lg border-2 border-dashed p-6 transition-all hover:cursor-pointer aria-disabled:opacity-50 aria-disabled:hover:cursor-not-allowed',
 		className
 	)}
 >

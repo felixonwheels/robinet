@@ -1,8 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"hello_world": "hello, {name} from en!",
-	"dragAndDrop": "drag 'n' drop your GPX file here, or click to select it",
-	"fileRestriction": "you can upload only one file",
+	"dragAndDrop": "drop your GPX file here",
 	"filePoints": [
 		{
 			"declarations": ["input count", "local countPlural = count: plural"],

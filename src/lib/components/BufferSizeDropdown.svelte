@@ -22,7 +22,7 @@
 							{...props}
 							variant="outline"
 							size="icon"
-							class="flex! items-center justify-center text-gray-900"
+							class="flex! items-center justify-center"
 						>
 							<CircleDashed color="#00ff55" strokeWidth={2} />
 						</Button>
@@ -40,7 +40,7 @@
 							}}
 							bind:value={selectedBufferSize}
 						>
-							{#each [0.2, 0.5, 0.8, 1, 2, 3, 4, 5, 10, 20] as step}
+							{#each [0.5, 1, 2, 5, 10] as step}
 								<DropdownMenu.RadioItem value={step.toString()}>
 									{step} km
 								</DropdownMenu.RadioItem>

@@ -119,7 +119,7 @@
 			accept=".gpx"
 			fileCount={file.value !== null ? 1 : 0}
 		>
-			<div class="flex flex-col place-items-center justify-center gap-2">
+			<div class="flex flex-col place-items-center justify-center gap-4">
 				<div
 					class="border-border text-muted-foreground flex size-14 place-items-center justify-center rounded-full border border-dashed"
 				>
@@ -129,9 +129,6 @@
 				<div class="flex flex-col gap-0.5 text-center">
 					<span class="text-muted-foreground font-medium">
 						{m.dragAndDrop()}
-					</span>
-					<span class="text-muted-foreground/75 text-sm">
-						<span>{m.fileRestriction()}</span>
 					</span>
 				</div>
 			</div>
