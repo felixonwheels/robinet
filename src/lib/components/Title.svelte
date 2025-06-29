@@ -53,6 +53,9 @@
 					<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">
 						{m.titleLead()}
 					</h3>
+					<p>
+						{m.titleDesc()}
+					</p>
 				</div>
 			</div>
 		</Drawer.Content>

@@ -7,7 +7,9 @@ export interface WaterSource {
 	id: number;
 	lat: number;
 	lon: number;
-	tags: object;
+	tags: {
+		[key: string]: string;
+	};
 }
 
 export enum status {

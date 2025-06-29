@@ -5,13 +5,8 @@
 	"fileRestriction": "vous ne pouvez télécharger qu'un seul fichier",
 	"filePoints": [
 		{
-			"declarations": [
-				"input count",
-				"local countPlural = count: plural"
-			],
-			"selectors": [
-				"countPlural"
-			],
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
 			"match": {
 				"countPlural=one": "le fichier contient 1 point",
 				"countPlural=other": "le fichier contient {count} points"
@@ -26,13 +21,8 @@
 	"bufferSize": "taille du tampon",
 	"waterSourceCount": [
 		{
-			"declarations": [
-				"input count",
-				"local countPlural = count: plural"
-			],
-			"selectors": [
-				"countPlural"
-			],
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
 			"match": {
 				"countPlural=one": "point d'eau ajouté",
 				"countPlural=other": "points d'eau ajoutés"
@@ -41,5 +31,6 @@
 	],
 	"downloadNewGpx": "télécharger le nouveau fichier GPX",
 	"waterSource": "source d'eau",
-	"titleDesc": ""
+	"titleDesc": "",
+	"waterSourceInfo": "informations sur le point d'eau"
 }

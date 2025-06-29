@@ -5,7 +5,7 @@
 	import { api } from '$lib/api';
 	import Spinner from '$lib/components/Spinner.svelte';
 	import * as HoverCard from '$lib/components/ui/hover-card/index.js';
-	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
+	import * as Table from '$lib/components/ui/table/index.js';
 	import { m } from '$lib/paraglide/messages';
 	import { overpassPolygons, selectedWaterSources, waterSources } from '$lib/state.svelte';
 
@@ -78,11 +78,18 @@
 							</div>
 						</HoverCard.Trigger>
 						<HoverCard.Content>
-							<div>
-								{#each Object.entries(waterSource.tags) as [key, value]}
-									<p class="text-lg">{key} => {value}</p>
-								{/each}
-							</div>
+							<Table.Root>
+								<Table.Caption>{m.waterSourceInfo()}</Table.Caption>
+								<Table.Body>
+									{#each Object.entries(waterSource.tags) as [key, value]}
+										<Table.Row>
+											<Table.Cell class="font-medium">{key}</Table.Cell>
+											<Table.Cell>{value}</Table.Cell>
+										</Table.Row>
+									{/each}
+								</Table.Body>
+							</Table.Root>
+							<div></div>
 						</HoverCard.Content>
 					</HoverCard.Root>
 				{/snippet}
