@@ -9,3 +9,10 @@ export interface WaterSource {
 	lon: number;
 	tags: object;
 }
+
+export enum status {
+	idle,
+	loading,
+	success,
+	error
+}

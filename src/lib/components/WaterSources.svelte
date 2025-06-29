@@ -1,31 +1,53 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { CustomControl, Marker } from 'svelte-maplibre-gl';
 
 	import { api } from '$lib/api';
 	import * as HoverCard from '$lib/components/ui/hover-card/index.js';
+	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
 	import { m } from '$lib/paraglide/messages';
 	import { overpassPolygons, selectedWaterSources, waterSources } from '$lib/state.svelte';
 
-	$effect(() => {
-		(async () => {
-			if (overpassPolygons.value.length) {
-				const waterSourcesResp = await api().getWaterSources(overpassPolygons.value);
+	let controller = new AbortController();
+	let signal = controller.signal;
 
+	let promise = $state(
+		api()
+			.getWaterSources(overpassPolygons.value, signal)
+			.then((waterSourcesResp) => {
 				waterSources.setValue(waterSourcesResp);
 				selectedWaterSources.setSelectedWaterSources(waterSourcesResp);
-			}
-		})();
+
+				return waterSourcesResp;
+			})
+	);
+
+	onMount(() => {
+		return () => {
+			waterSources.setValue(null);
+			selectedWaterSources.setSelectedWaterSources(null);
+
+			controller.abort();
+		};
 	});
 </script>
 
-{#if !!selectedWaterSources.value?.size}
-	<CustomControl position="top-left">
-		<div class="p-2 text-sm font-sans text-gray-800">
-			{selectedWaterSources.value?.size}
-			{m.waterSourceCount({ count: selectedWaterSources.value?.size })}
-		</div>
-	</CustomControl>
-{/if}
+<CustomControl position="top-left">
+	<div>
+		{#await promise}
+			<div class="p-2 text-sm font-sans text-gray-800">
+				<Skeleton class="h-4 w-12" />
+			</div>
+		{:then sources}
+			<div class="p-2 text-sm font-sans text-gray-800">
+				{sources.length}
+				{m.waterSourceCount({ count: sources.length ?? 0 })}
+			</div>
+		{:catch error}
+			<p style="color: red">{error.message}</p>
+		{/await}
+	</div>
+</CustomControl>
 
 {#if waterSources.value?.length}
 	{#each waterSources.value as waterSource}

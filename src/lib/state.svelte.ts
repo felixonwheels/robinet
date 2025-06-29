@@ -2,7 +2,7 @@ import { buffer } from '@turf/turf';
 import type { Feature, GeoJsonProperties, Geometry, Polygon } from 'geojson';
 import * as gpx from 'gpx.studio/gpx/src/index';
 
-import type { FeatureOrNothing } from './types';
+import type { FeatureOrNothing, WaterSource } from './types';
 
 let fileValue = $state<gpx.GPXFile[] | null>(null);
 

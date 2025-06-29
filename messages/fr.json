@@ -18,7 +18,7 @@
 	"uploadErrorFileTypeNotAllowed": "type de fichier non autorisé",
 	"uploadErrorFailToUpload": "échec du téléchargement pour {name} !",
 	"titleLead": "ajoutez les sources d'eau autour de votre tracé GPX et restez hydratés",
-	"bufferSize": "taille du boyau",
+	"bufferSize": "taille du tamon",
 	"waterSourceCount": [
 		{
 			"declarations": ["input count", "local countPlural = count: plural"],

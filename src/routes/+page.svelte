@@ -7,6 +7,7 @@
 
 <div class="space-y-4">
 	<Title />
+	<div class="my-8"></div>
 	<FileDrop />
 	<Map />
 	<ExportButton />

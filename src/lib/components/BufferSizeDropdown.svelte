@@ -10,12 +10,6 @@
 
 	let selectedBufferSize = $state('1');
 	let bufferSizeDropdownOpened = $state(false);
-
-	$effect(() => {
-		if (selectedBufferSize !== null) {
-			bufferSize.setValue(+selectedBufferSize);
-		}
-	});
 </script>
 
 {#if file.value !== null}
@@ -38,7 +32,14 @@
 					<DropdownMenu.Group>
 						<DropdownMenu.Label>{m.bufferSize()}</DropdownMenu.Label>
 						<DropdownMenu.Separator />
-						<DropdownMenu.RadioGroup bind:value={selectedBufferSize}>
+						<DropdownMenu.RadioGroup
+							onValueChange={(selectedBufferSize) => {
+								if (selectedBufferSize !== null) {
+									bufferSize.setValue(+selectedBufferSize);
+								}
+							}}
+							bind:value={selectedBufferSize}
+						>
 							{#each [0.5, 1, 2, 3, 4, 5, 10, 20] as step}
 								<DropdownMenu.RadioItem value={step.toString()}>
 									{step} km

@@ -14,7 +14,7 @@
 	import Tracks from '$lib/components/Tracks.svelte';
 	import WaterSources from '$lib/components/WaterSources.svelte';
 	import * as Card from '$lib/components/ui/card/index.js';
-	import { file } from '$lib/state.svelte';
+	import { bufferSize, file, overpassPolygons } from '$lib/state.svelte';
 	import { styleDark, styleLight } from '$lib/style';
 
 	let map: Map | undefined = $state();
@@ -47,7 +47,11 @@
 			<FullScreenControl position="top-right" />
 			<Tracks />
 			<BufferSizeDropdown />
-			<WaterSources />
+			{#if overpassPolygons.value.length}
+				{#key bufferSize.value && overpassPolygons.value}
+					<WaterSources />
+				{/key}
+			{/if}
 		</MapLibre>
 	</Card.Content>
 </Card.Root>
