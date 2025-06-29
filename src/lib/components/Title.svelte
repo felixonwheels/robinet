@@ -48,10 +48,12 @@
 		</div>
 
 		<Drawer.Content>
-			<div transition:slide>
-				<blockquote class="m-4 border-l-2 pl-6 text-muted-foreground text-l my-12">
-					{m.titleLead()}
-				</blockquote>
+			<div transition:slide class="w-full p-4 sm:p-6 lg:p-8">
+				<div class="mx-auto max-w-screen-sm">
+					<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">
+						{m.titleLead()}
+					</h3>
+				</div>
 			</div>
 		</Drawer.Content>
 	</Drawer.Root>

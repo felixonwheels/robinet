@@ -4,14 +4,14 @@
 	import { toast } from 'svelte-sonner';
 	import { slide } from 'svelte/transition';
 
+	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { FileDropZone, type FileDropZoneProps } from '$lib/components/ui/file-drop-zone';
+	import { Input } from '$lib/components/ui/input/index.js';
 	import { m } from '$lib/paraglide/messages.js';
-	import { file, selectedWaterSources, waterSources } from '$lib/state.svelte';
+	import { file, gpxFileName, selectedWaterSources, waterSources } from '$lib/state.svelte';
 	import type { GPXBuildData } from '$lib/types';
 	import { attributesWithNamespace, safeParseFloat } from '$lib/utils';
-
-	import Button from './ui/button/button.svelte';
 
 	const onUpload: FileDropZoneProps['onUpload'] = async (uploadedFiles) => {
 		const mainFile = uploadedFiles[0];
@@ -69,8 +69,6 @@
 					}
 
 					if (tagName === 'gpxpx:PowerExtension') {
-						// Finish the transformation of the simple <power> tag to the more complex <gpxpx:PowerExtension> tag
-						// Note that this only targets the transformed <power> tag, since it must be a leaf node
 						return {
 							'gpxpx:PowerInWatts': safeParseFloat(tagValue)
 						};
@@ -84,6 +82,9 @@
 		let gpx = parser.parse(content).gpx as GPXBuildData;
 
 		file.setValue(gpx);
+
+		gpxFileName.setValue(gpx?.metadata?.name ?? '-');
+		gpxNameLocal = gpx?.metadata?.name ?? '-';
 
 		const pointCount =
 			gpx.trk?.reduce((sum, trk) => {
@@ -99,6 +100,14 @@
 	const onFileRejected: FileDropZoneProps['onFileRejected'] = async ({ reason, file }) => {
 		toast.error(m.uploadErrorFailToUpload({ name: file.name }), { description: reason });
 	};
+
+	let gpxNameLocal = $state('');
+
+	$effect(() => {
+		if (gpxNameLocal !== gpxFileName.value) {
+			gpxFileName.setValue(gpxNameLocal);
+		}
+	});
 </script>
 
 {#if file.value === null}
@@ -131,9 +140,10 @@
 {:else}
 	<Card.Root>
 		<Card.Content class="flex w-full place-items-center justify-between">
-			<span class="text-muted-foreground font-medium overflow-auto">
-				{file.value?.metadata?.name ?? '-'}
-			</span>
+			<Input
+				bind:value={gpxNameLocal}
+				class="text-muted-foreground font-medium overflow-auto mr-2"
+			/>
 			<Button
 				variant="outline"
 				size="icon"

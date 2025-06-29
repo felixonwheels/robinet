@@ -14,6 +14,17 @@ export const file = {
 	}
 };
 
+let gpxFileNameValue: string | null = $state(null);
+
+export const gpxFileName = {
+	get value() {
+		return gpxFileNameValue;
+	},
+	setValue(value: string | null) {
+		gpxFileNameValue = value;
+	}
+};
+
 const tracksValue = $derived<GeoJSON.GeoJSON[]>(
 	(file.value?.trk ?? []).map(
 		(track) =>

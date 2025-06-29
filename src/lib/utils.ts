@@ -5,7 +5,7 @@ import { type ClassValue, clsx } from 'clsx';
 import type { Position } from 'geojson';
 import { twMerge } from 'tailwind-merge';
 
-import type { Bounds } from './types';
+import type { Bounds } from '$lib/types';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));

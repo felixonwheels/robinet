@@ -3,6 +3,7 @@
 	import { CustomControl, Marker } from 'svelte-maplibre-gl';
 
 	import { api } from '$lib/api';
+	import Spinner from '$lib/components/Spinner.svelte';
 	import * as HoverCard from '$lib/components/ui/hover-card/index.js';
 	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
 	import { m } from '$lib/paraglide/messages';
@@ -35,8 +36,8 @@
 <CustomControl position="top-left">
 	<div>
 		{#await promise}
-			<div class="p-2 text-sm font-sans text-gray-800">
-				<Skeleton class="h-4 w-12" />
+			<div class="p-1">
+				<Spinner />
 			</div>
 		{:then _}
 			<div class="p-2 text-sm font-sans text-gray-800">

@@ -5,7 +5,7 @@
 
 	import { Button } from '$lib/components/ui/button';
 	import { m } from '$lib/paraglide/messages.js';
-	import { file } from '$lib/state.svelte';
+	import { file, gpxFileName } from '$lib/state.svelte';
 	import { selectedWaterSources, waterSources } from '$lib/state.svelte';
 	import type { WayPoint } from '$lib/types';
 
@@ -23,6 +23,11 @@
 				})) as WayPoint[];
 
 			file.value.wpt = [...(file.value?.wpt ?? []), ...waypoints];
+
+			if (file.value?.metadata?.name !== null) {
+				file.value!.metadata!.name =
+					gpxFileName.value ?? file.value.metadata?.name ?? file.value.metadata?.author?.name;
+			}
 
 			let lastDate: Date | undefined = undefined;
 
@@ -56,7 +61,7 @@
 
 			FileSaver.saveAs(
 				new Blob([builtGpx], { type: 'application/gpx+xml' }),
-				`${file.value.metadata?.name ?? file.value.metadata?.author}-hydrated.gpx`
+				`${gpxFileName.value ?? file.value.metadata?.name ?? file.value.metadata?.author}.gpx`
 			);
 		}
 	}

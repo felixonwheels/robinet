@@ -1,4 +1,4 @@
-import type { WaterSource } from './types';
+import type { WaterSource } from '$lib/types';
 
 export const api = () => ({
 	getWaterSources: async (poly: string[], signal: AbortSignal) => {
