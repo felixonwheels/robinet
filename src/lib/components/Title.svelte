@@ -19,45 +19,47 @@
 </script>
 
 {#if file.value === null}
-	<Drawer.Root>
-		<div transition:slide>
-			<div class="flex place-content-center justify-between">
-				<h2
-					class="scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0"
-				>
-					💧 robinet
-				</h2>
-				<div class="space-x-1">
-					<Drawer.Trigger>
-						<Button size="icon" variant="outline">
-							<Info class="size-4" />
-						</Button>
-					</Drawer.Trigger>
+	<div class="mb-8">
+		<Drawer.Root>
+			<div transition:slide>
+				<div class="flex place-content-center justify-between">
+					<h2
+						class="scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0"
+					>
+						💧 robinet
+					</h2>
+					<div class="space-x-1">
+						<Drawer.Trigger>
+							<Button size="icon" variant="outline">
+								<Info class="size-4" />
+							</Button>
+						</Drawer.Trigger>
 
-					<LanguageSwitcher
-						{languages}
-						onChange={(locale) => {
-							if (locale !== getLocale() && !!locale) {
-								setLocale(locale as Locale);
-							}
-						}}
-						bind:value
-					/>
+						<LanguageSwitcher
+							{languages}
+							onChange={(locale) => {
+								if (locale !== getLocale() && !!locale) {
+									setLocale(locale as Locale);
+								}
+							}}
+							bind:value
+						/>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<Drawer.Content>
-			<div transition:slide class="w-full p-4 sm:p-6 lg:p-8">
-				<div class="mx-auto max-w-screen-sm">
-					<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">
-						{m.titleLead()}
-					</h3>
-					<p>
-						{m.titleDesc()}
-					</p>
+			<Drawer.Content>
+				<div transition:slide class="w-full p-4 sm:p-6 lg:p-8">
+					<div class="mx-auto max-w-screen-sm">
+						<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">
+							{m.titleLead()}
+						</h3>
+						<p>
+							{m.titleDesc()}
+						</p>
+					</div>
 				</div>
-			</div>
-		</Drawer.Content>
-	</Drawer.Root>
+			</Drawer.Content>
+		</Drawer.Root>
+	</div>
 {/if}
