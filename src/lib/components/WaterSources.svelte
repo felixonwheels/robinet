@@ -21,7 +21,7 @@
 
 	let promise = $state(
 		api()
-			.getWaterSources(overpassPolygons.value ?? '', signal)
+			.getWaterSources(overpassPolygons.value ?? [], signal)
 			.then((waterSourcesResp) => {
 				const trueWaterSources = waterSourcesResp.filter((source) =>
 					booleanPointInPolygon([source.lon, source.lat], tracksBuffers.value?.geometry as Polygon)

@@ -136,6 +136,6 @@ export const parser = new XMLParser({
 	}
 });
 
-export function geojsonPolygonToOverpassPoly(feature: Feature<Polygon>): string {
-	return feature.geometry.coordinates[0].map(([lon, lat]) => `${lat} ${lon}`).join(' ');
+export function geojsonPolygonToOverpassPoly(positions: Position[]): string {
+	return positions.map(([lon, lat]) => `${lat} ${lon}`).join(' ');
 }

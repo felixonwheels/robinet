@@ -60,7 +60,7 @@
 			<Tracks />
 			<BufferSizeDropdown />
 			{#if overpassPolygons.value}
-				{#key bufferSize.value && overpassPolygons.value}
+				{#key bufferSize.value && overpassPolygons.value.length}
 					<WaterSources />
 				{/key}
 			{/if}

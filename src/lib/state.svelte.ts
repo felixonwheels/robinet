@@ -57,13 +57,13 @@ export const tracksBuffers = {
 	}
 };
 
-let overpassPolygonsValue = $state<string>();
+let overpassPolygonsValue = $state<string[]>();
 
 export const overpassPolygons = {
 	get value() {
 		return overpassPolygonsValue;
 	},
-	setValue(value: string | undefined) {
+	setValue(value: string[] | undefined) {
 		overpassPolygonsValue = value;
 	}
 };

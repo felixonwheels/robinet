@@ -33,9 +33,19 @@
 
 	$effect(() => {
 		if (file.value !== undefined && tracksBuffers.value !== undefined) {
-			overpassPolygons.setValue(
-				geojsonPolygonToOverpassPoly(tracksBuffers.value as Feature<Polygon>)
-			);
+			if (tracksBuffers.value?.geometry.type === 'Polygon') {
+				overpassPolygons.setValue([
+					geojsonPolygonToOverpassPoly(
+						(tracksBuffers.value as Feature<Polygon>).geometry.coordinates[0]
+					)
+				]);
+			} else if (tracksBuffers.value?.geometry.type === 'MultiPolygon') {
+				overpassPolygons.setValue(
+					(tracksBuffers.value as Feature<MultiPolygon>).geometry.coordinates.map((pos) =>
+						geojsonPolygonToOverpassPoly(pos[0])
+					)
+				);
+			}
 		}
 	});
 </script>
