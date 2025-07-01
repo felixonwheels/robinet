@@ -2,23 +2,15 @@
 	import { Info } from '@lucide/svelte';
 	import { slide } from 'svelte/transition';
 
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
+	import ThemeSwitcher from '$lib/components/ThemeSwitcher.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
-	import { LanguageSwitcher } from '$lib/components/ui/language-switcher';
 	import { m } from '$lib/paraglide/messages';
-	import { getLocale, setLocale } from '$lib/paraglide/runtime';
-	import type { Locale } from '$lib/paraglide/runtime';
 	import { file } from '$lib/state.svelte';
-
-	let value = $state(getLocale());
-
-	const languages = [
-		{ code: 'en', label: '🇬🇧' },
-		{ code: 'fr', label: '🇫🇷' }
-	];
 </script>
 
-{#if file.value === null}
+{#if file.value === undefined}
 	<div class="mb-8">
 		<Drawer.Root>
 			<div transition:slide>
@@ -35,15 +27,9 @@
 							</Button>
 						</Drawer.Trigger>
 
-						<LanguageSwitcher
-							{languages}
-							onChange={(locale) => {
-								if (locale !== getLocale() && !!locale) {
-									setLocale(locale as Locale);
-								}
-							}}
-							bind:value
-						/>
+						<LanguageSwitcher />
+
+						<ThemeSwitcher />
 					</div>
 				</div>
 			</div>
@@ -51,11 +37,8 @@
 			<Drawer.Content>
 				<div transition:slide class="w-full p-4 sm:p-6 lg:p-8">
 					<div class="mx-auto max-w-screen-sm">
-						<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">
-							{m.titleLead()}
-						</h3>
 						<p>
-							{m.titleDesc()}
+							{m.titleLead()}
 						</p>
 					</div>
 				</div>

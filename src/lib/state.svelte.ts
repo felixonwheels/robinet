@@ -1,46 +1,37 @@
-import { buffer } from '@turf/turf';
-import type { Feature, GeoJsonProperties, Geometry, LineString, Polygon, Position } from 'geojson';
+import type { Feature, MultiLineString, MultiPolygon, Polygon } from 'geojson';
 
-import type { FeatureOrNothing, GPXBuildData, WaterSource } from './types';
+import type { GPXBuildData, WaterSource } from './types';
 
-let fileValue = $state<GPXBuildData | null>(null);
+let fileValue = $state<GPXBuildData>();
 
 export const file = {
 	get value() {
 		return fileValue;
 	},
-	setValue(value: GPXBuildData | null) {
+	setValue(value: GPXBuildData | undefined) {
 		fileValue = value;
 	}
 };
 
-let gpxFileNameValue: string | null = $state(null);
+let gpxFileNameValue = $state<string>();
 
 export const gpxFileName = {
 	get value() {
 		return gpxFileNameValue;
 	},
-	setValue(value: string | null) {
+	setValue(value: string) {
 		gpxFileNameValue = value;
 	}
 };
 
-const tracksValue = $derived<GeoJSON.GeoJSON[]>(
-	(file.value?.trk ?? []).map(
-		(track) =>
-			({
-				type: 'LineString',
-				coordinates:
-					track.trkseg?.flatMap((seg) =>
-						seg.trkpt.map((pt) => [pt.attributes.lon, pt.attributes.lat] as Position)
-					) ?? []
-			}) as LineString
-	)
-);
+let tracksValue = $state<MultiLineString>();
 
 export const tracks = {
 	get value() {
 		return tracksValue;
+	},
+	setValue(value: MultiLineString | undefined) {
+		tracksValue = value;
 	}
 };
 
@@ -55,56 +46,50 @@ export const bufferSize = {
 	}
 };
 
-const tracksBuffersValue = $derived.by<FeatureOrNothing[]>(() => {
-	return tracks.value.map((track) =>
-		buffer(track as Feature<Geometry, GeoJsonProperties>, bufferSizeValue, {
-			units: 'kilometers'
-		})
-	);
-});
+let tracksBuffersValue = $state<Feature<Polygon | MultiPolygon>>();
 
 export const tracksBuffers = {
 	get value() {
 		return tracksBuffersValue;
+	},
+	setValue(value: Feature<Polygon | MultiPolygon> | undefined) {
+		tracksBuffersValue = value;
 	}
 };
 
-export function geojsonPolygonToOverpassPoly(feature: Feature<Polygon>): string {
-	return feature.geometry.coordinates[0].map(([lon, lat]) => `${lat} ${lon}`).join(' ');
-}
-
-const overpassPolygonsValue = $derived<string[]>(
-	tracksBuffers.value.map((track) => geojsonPolygonToOverpassPoly(track as Feature<Polygon>))
-);
+let overpassPolygonsValue = $state<string>();
 
 export const overpassPolygons = {
 	get value() {
 		return overpassPolygonsValue;
+	},
+	setValue(value: string | undefined) {
+		overpassPolygonsValue = value;
 	}
 };
 
-let waterSourcesValue = $state<WaterSource[] | null>(null);
+let waterSourcesValue = $state<WaterSource[]>();
 
 export const waterSources = {
 	get value() {
 		return waterSourcesValue;
 	},
-	setValue(value: WaterSource[] | null) {
+	setValue(value: WaterSource[] | undefined) {
 		waterSourcesValue = value;
 	}
 };
 
-let selectedWaterSourcesValue = $state<Set<number> | null>(null);
+let selectedWaterSourcesValue = $state<Set<number>>();
 
 export const selectedWaterSources = {
 	get value() {
 		return selectedWaterSourcesValue;
 	},
-	setSelectedWaterSources(waterSources: WaterSource[] | null) {
+	setSelectedWaterSources(waterSources: WaterSource[] | undefined) {
 		if (waterSources === null) {
-			selectedWaterSourcesValue = null;
+			selectedWaterSourcesValue = undefined;
 		} else {
-			selectedWaterSourcesValue = new Set(waterSources.map((waterSource) => waterSource.id) ?? []);
+			selectedWaterSourcesValue = new Set(waterSources?.map((waterSource) => waterSource.id) ?? []);
 		}
 	},
 	toggleWaterSource(id: number) {

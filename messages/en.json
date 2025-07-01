@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"hello_world": "hello, {name} from en!",
-	"dragAndDrop": "drop your GPX file here",
+	"dragAndDrop": "drop your GPX file",
 	"filePoints": [
 		{
 			"declarations": ["input count", "local countPlural = count: plural"],
@@ -31,5 +31,10 @@
 	],
 	"waterSource": "water source",
 	"titleDesc": "",
-	"waterSourceInfo": "informations about the water source"
+	"waterSourceInfo": "informations about the water source",
+	"themeSelectorToggle": "toggle theme",
+	"themeSelectorLight": "light",
+	"themeSelectorDark": "dark",
+	"themeSelectorSystem": "system",
+	"languageSwitcher": "change language"
 }

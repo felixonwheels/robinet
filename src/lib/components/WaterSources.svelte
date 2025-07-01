@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { booleanPointInPolygon } from '@turf/turf';
+	import type { Polygon } from 'geojson';
 	import { onMount } from 'svelte';
 	import { CustomControl, Marker } from 'svelte-maplibre-gl';
 
@@ -7,26 +9,35 @@
 	import * as HoverCard from '$lib/components/ui/hover-card/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { m } from '$lib/paraglide/messages';
-	import { overpassPolygons, selectedWaterSources, waterSources } from '$lib/state.svelte';
+	import {
+		overpassPolygons,
+		selectedWaterSources,
+		tracksBuffers,
+		waterSources
+	} from '$lib/state.svelte';
 
 	let controller = new AbortController();
 	let signal = controller.signal;
 
 	let promise = $state(
 		api()
-			.getWaterSources(overpassPolygons.value, signal)
+			.getWaterSources(overpassPolygons.value ?? '', signal)
 			.then((waterSourcesResp) => {
-				waterSources.setValue(waterSourcesResp);
-				selectedWaterSources.setSelectedWaterSources(waterSourcesResp);
+				const trueWaterSources = waterSourcesResp.filter((source) =>
+					booleanPointInPolygon([source.lon, source.lat], tracksBuffers.value?.geometry as Polygon)
+				);
 
-				return waterSourcesResp;
+				waterSources.setValue(trueWaterSources);
+				selectedWaterSources.setSelectedWaterSources(trueWaterSources);
+
+				return trueWaterSources;
 			})
 	);
 
 	onMount(() => {
 		return () => {
-			waterSources.setValue(null);
-			selectedWaterSources.setSelectedWaterSources(null);
+			waterSources.setValue(undefined);
+			selectedWaterSources.setSelectedWaterSources(undefined);
 
 			controller.abort();
 		};

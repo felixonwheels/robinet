@@ -12,7 +12,7 @@
 	let bufferSizeDropdownOpened = $state(false);
 </script>
 
-{#if file.value !== null}
+{#if file.value !== undefined}
 	<div transition:fade>
 		<CustomControl position="bottom-left">
 			<DropdownMenu.Root open={bufferSizeDropdownOpened}>
@@ -22,7 +22,7 @@
 							{...props}
 							variant="outline"
 							size="icon"
-							class="flex! items-center justify-center"
+							class="flex! items-center justify-center rounded"
 						>
 							<CircleDashed color="#00ff55" strokeWidth={2} />
 						</Button>
@@ -34,9 +34,7 @@
 						<DropdownMenu.Separator />
 						<DropdownMenu.RadioGroup
 							onValueChange={(selectedBufferSize) => {
-								if (selectedBufferSize !== null) {
-									bufferSize.setValue(+selectedBufferSize);
-								}
+								bufferSize.setValue(+selectedBufferSize);
 							}}
 							bind:value={selectedBufferSize}
 						>

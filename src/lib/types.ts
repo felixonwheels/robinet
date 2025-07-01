@@ -1,7 +1,3 @@
-import type { Feature, MultiPolygon, Polygon } from 'geojson';
-
-export type FeatureOrNothing = Feature<Polygon | MultiPolygon> | undefined;
-
 export interface WaterSource {
 	type: string;
 	id: number;
@@ -10,13 +6,6 @@ export interface WaterSource {
 	tags: {
 		[key: string]: string;
 	};
-}
-
-export enum status {
-	idle,
-	loading,
-	success,
-	error
 }
 
 export interface Link {

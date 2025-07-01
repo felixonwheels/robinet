@@ -1,8 +1,6 @@
-/*
-	Installed from @ieedan/shadcn-svelte-extras
-*/
 import { type ClassValue, clsx } from 'clsx';
-import type { Position } from 'geojson';
+import { XMLParser } from 'fast-xml-parser';
+import type { Feature, Polygon, Position } from 'geojson';
 import { twMerge } from 'tailwind-merge';
 
 import type { Bounds } from '$lib/types';
@@ -76,3 +74,68 @@ const floatPatterns = [
 	/[-+]?\d*\.\d+$/, // decimal
 	/[-+]?\d+$/ // integer
 ];
+
+export const parser = new XMLParser({
+	ignoreAttributes: false,
+	attributeNamePrefix: '',
+	attributesGroupName: 'attributes',
+	removeNSPrefix: true,
+	isArray(name: string) {
+		return (
+			name === 'trk' ||
+			name === 'trkseg' ||
+			name === 'trkpt' ||
+			name === 'wpt' ||
+			name === 'rte' ||
+			name === 'rtept' ||
+			name === 'gpxx:rpt'
+		);
+	},
+	attributeValueProcessor(attrName, attrValue, _) {
+		if (attrName === 'lat' || attrName === 'lon') {
+			return safeParseFloat(attrValue);
+		}
+		return attrValue;
+	},
+	transformTagName(tagName: string) {
+		if (Object.hasOwn(attributesWithNamespace, tagName)) {
+			return attributesWithNamespace[tagName];
+		}
+		return tagName;
+	},
+	parseTagValue: false,
+	tagValueProcessor(tagName, tagValue, jPath, hasAttributes, isLeafNode) {
+		if (isLeafNode) {
+			if (tagName === 'ele') {
+				return safeParseFloat(tagValue);
+			}
+
+			if (tagName === 'time') {
+				return new Date(tagValue);
+			}
+
+			if (
+				tagName === 'gpxtpx:atemp' ||
+				tagName === 'gpxtpx:hr' ||
+				tagName === 'gpxtpx:cad' ||
+				tagName === 'gpxpx:PowerInWatts' ||
+				tagName === 'gpx_style:opacity' ||
+				tagName === 'gpx_style:width'
+			) {
+				return safeParseFloat(tagValue);
+			}
+
+			if (tagName === 'gpxpx:PowerExtension') {
+				return {
+					'gpxpx:PowerInWatts': safeParseFloat(tagValue)
+				};
+			}
+		}
+
+		return tagValue;
+	}
+});
+
+export function geojsonPolygonToOverpassPoly(feature: Feature<Polygon>): string {
+	return feature.geometry.coordinates[0].map(([lon, lat]) => `${lat} ${lon}`).join(' ');
+}

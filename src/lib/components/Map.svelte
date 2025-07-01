@@ -17,7 +17,7 @@
 	let style = $derived(mode.current === 'dark' ? styleDark : styleLight);
 
 	$effect(() => {
-		if (file.value !== null) {
+		if (file.value !== undefined) {
 			let bounds = computeMapBounds(
 				(file.value?.trk ?? []).flatMap(
 					(track) =>
@@ -39,6 +39,15 @@
 			}
 		}
 	});
+
+	$effect(() => {
+		if (file.value === undefined && map !== undefined) {
+			map?.zoomTo(1, {
+				animate: true,
+				center: new LngLat(0, 0)
+			});
+		}
+	});
 </script>
 
 <PMTilesProtocol />
@@ -50,7 +59,7 @@
 			<Projection type="globe" />
 			<Tracks />
 			<BufferSizeDropdown />
-			{#if overpassPolygons.value.length}
+			{#if overpassPolygons.value}
 				{#key bufferSize.value && overpassPolygons.value}
 					<WaterSources />
 				{/key}

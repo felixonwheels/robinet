@@ -1,40 +1,34 @@
-<!--
-	Installed from @ieedan/shadcn-svelte-extras
--->
-
 <script lang="ts">
 	import { GlobeIcon } from '@lucide/svelte';
 
 	import { buttonVariants } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { cn } from '$lib/utils';
+	import { m } from '$lib/paraglide/messages';
+	import { type Locale, getLocale, setLocale } from '$lib/paraglide/runtime';
 
-	import type { LanguageSwitcherProps } from './types';
+	let value = $state(getLocale());
 
-	let {
-		languages = [],
-		value = $bindable(''),
-		align = 'end',
-		variant = 'outline',
-		onChange,
-		class: className
-	}: LanguageSwitcherProps = $props();
+	const languages = [
+		{ code: 'en', label: '🇬🇧' },
+		{ code: 'fr', label: '🇫🇷' }
+	];
 
-	// set default code if there isn't one selected
-	if (value === '') {
-		value = languages[0].code;
+	function onChange(locale: string) {
+		if (locale !== getLocale() && !!locale) {
+			setLocale(locale as Locale);
+		}
 	}
 </script>
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger
-		class={cn(buttonVariants({ variant, size: 'icon' }), className)}
-		aria-label="Change language"
+		class={buttonVariants({ variant: 'outline', size: 'icon' })}
+		aria-label={m.languageSwitcher()}
 	>
 		<GlobeIcon class="size-4" />
-		<span class="sr-only">Change language</span>
+		<span class="sr-only">{m.languageSwitcher()}</span>
 	</DropdownMenu.Trigger>
-	<DropdownMenu.Content {align}>
+	<DropdownMenu.Content align="end">
 		<DropdownMenu.RadioGroup bind:value onValueChange={onChange}>
 			{#each languages as language (language.code)}
 				<DropdownMenu.RadioItem value={language.code}>

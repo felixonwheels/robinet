@@ -1,12 +1,47 @@
 <script lang="ts">
+	import { buffer } from '@turf/turf';
 	import type { Feature, MultiPolygon, Polygon } from 'geojson';
+	import type { GeoJSON, MultiLineString } from 'geojson';
 	import { FillLayer, GeoJSONSource, LineLayer } from 'svelte-maplibre-gl';
 
-	import { tracks, tracksBuffers } from '$lib/state.svelte';
+	import { bufferSize, file, overpassPolygons, tracks, tracksBuffers } from '$lib/state.svelte';
+	import { geojsonPolygonToOverpassPoly } from '$lib/utils';
+
+	$effect(() => {
+		if (file.value !== undefined) {
+			tracks.setValue({
+				type: 'MultiLineString',
+				coordinates: file.value.trk?.flatMap(
+					(track) =>
+						track.trkseg?.map((seg) =>
+							seg.trkpt.map((pt) => [pt.attributes.lon, pt.attributes.lat])
+						) ?? []
+				)
+			} as MultiLineString);
+		}
+	});
+
+	$effect(() => {
+		if (file.value !== undefined) {
+			tracksBuffers.setValue(
+				buffer(tracks.value as MultiLineString, bufferSize.value, {
+					units: 'kilometers'
+				}) as Feature<Polygon | MultiPolygon>
+			);
+		}
+	});
+
+	$effect(() => {
+		if (file.value !== undefined && tracksBuffers.value !== undefined) {
+			overpassPolygons.setValue(
+				geojsonPolygonToOverpassPoly(tracksBuffers.value as Feature<Polygon>)
+			);
+		}
+	});
 </script>
 
-{#each tracks.value as track}
-	<GeoJSONSource data={track}>
+{#if tracks.value !== undefined}
+	<GeoJSONSource data={tracks.value as GeoJSON}>
 		<LineLayer
 			paint={{
 				'line-color': '#2e86de',
@@ -18,22 +53,21 @@
 			}}
 		/>
 	</GeoJSONSource>
-{/each}
-{#each tracksBuffers.value as tracksBuffer}
-	{#if tracksBuffer !== undefined}
-		<GeoJSONSource data={tracksBuffer as Feature<Polygon | MultiPolygon>}>
-			<FillLayer
-				paint={{
-					'fill-color': '#00ff55',
-					'fill-opacity': 0.1
-				}}
-			/>
-			<LineLayer
-				paint={{
-					'line-color': '#00ff55',
-					'line-width': 1
-				}}
-			/>
-		</GeoJSONSource>
-	{/if}
-{/each}
+{/if}
+
+{#if tracksBuffers.value !== undefined}
+	<GeoJSONSource data={tracksBuffers.value as GeoJSON}>
+		<FillLayer
+			paint={{
+				'fill-color': '#00ff55',
+				'fill-opacity': 0.1
+			}}
+		/>
+		<LineLayer
+			paint={{
+				'line-color': '#00ff55',
+				'line-width': 1
+			}}
+		/>
+	</GeoJSONSource>
+{/if}

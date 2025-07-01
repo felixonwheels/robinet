@@ -1,107 +1,104 @@
 <script lang="ts">
 	import { UploadIcon, XIcon } from '@lucide/svelte';
-	import { XMLParser } from 'fast-xml-parser';
+	import { tick } from 'svelte';
 	import { toast } from 'svelte-sonner';
-	import { slide } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Card from '$lib/components/ui/card/index.js';
-	import { FileDropZone, type FileDropZoneProps } from '$lib/components/ui/file-drop-zone';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { m } from '$lib/paraglide/messages.js';
-	import { file, gpxFileName, selectedWaterSources, waterSources } from '$lib/state.svelte';
+	import {
+		file,
+		gpxFileName,
+		overpassPolygons,
+		selectedWaterSources,
+		tracks,
+		tracksBuffers,
+		waterSources
+	} from '$lib/state.svelte';
 	import type { GPXBuildData } from '$lib/types';
-	import { attributesWithNamespace, safeParseFloat } from '$lib/utils';
-
-	const onUpload: FileDropZoneProps['onUpload'] = async (uploadedFiles) => {
-		const mainFile = uploadedFiles[0];
-
-		const content = await mainFile.text();
-
-		const parser = new XMLParser({
-			ignoreAttributes: false,
-			attributeNamePrefix: '',
-			attributesGroupName: 'attributes',
-			removeNSPrefix: true,
-			isArray(name: string) {
-				return (
-					name === 'trk' ||
-					name === 'trkseg' ||
-					name === 'trkpt' ||
-					name === 'wpt' ||
-					name === 'rte' ||
-					name === 'rtept' ||
-					name === 'gpxx:rpt'
-				);
-			},
-			attributeValueProcessor(attrName, attrValue, jPath) {
-				if (attrName === 'lat' || attrName === 'lon') {
-					return safeParseFloat(attrValue);
-				}
-				return attrValue;
-			},
-			transformTagName(tagName: string) {
-				if (Object.hasOwn(attributesWithNamespace, tagName)) {
-					return attributesWithNamespace[tagName];
-				}
-				return tagName;
-			},
-			parseTagValue: false,
-			tagValueProcessor(tagName, tagValue, jPath, hasAttributes, isLeafNode) {
-				if (isLeafNode) {
-					if (tagName === 'ele') {
-						return safeParseFloat(tagValue);
-					}
-
-					if (tagName === 'time') {
-						return new Date(tagValue);
-					}
-
-					if (
-						tagName === 'gpxtpx:atemp' ||
-						tagName === 'gpxtpx:hr' ||
-						tagName === 'gpxtpx:cad' ||
-						tagName === 'gpxpx:PowerInWatts' ||
-						tagName === 'gpx_style:opacity' ||
-						tagName === 'gpx_style:width'
-					) {
-						return safeParseFloat(tagValue);
-					}
-
-					if (tagName === 'gpxpx:PowerExtension') {
-						return {
-							'gpxpx:PowerInWatts': safeParseFloat(tagValue)
-						};
-					}
-				}
-
-				return tagValue;
-			}
-		});
-
-		let gpx = parser.parse(content).gpx as GPXBuildData;
-
-		file.setValue(gpx);
-
-		gpxFileName.setValue(gpx?.metadata?.name ?? '-');
-		gpxNameLocal = gpx?.metadata?.name ?? '-';
-
-		const pointCount =
-			gpx.trk?.reduce((sum, trk) => {
-				return (
-					sum + (trk.trkseg ?? []).reduce((segSum, seg) => segSum + (seg.trkpt?.length || 0), 0) ||
-					0
-				);
-			}, 0) || 0;
-
-		toast.success(m.filePoints({ count: pointCount }));
-	};
-
-	const onFileRejected: FileDropZoneProps['onFileRejected'] = async ({ reason, file }) => {
-		toast.error(m.uploadErrorFailToUpload({ name: file.name }), { description: reason });
-	};
+	import { parser } from '$lib/utils';
 
 	let gpxNameLocal = $state('');
+	let uploading = $state(false);
+	let disabled = $state(false);
+
+	const onUpload = async (uploadedFile: File) => {
+		await tick();
+
+		uploading = true;
+
+		try {
+			const content = await uploadedFile.text();
+
+			const parsedValue = parser.parse(content);
+
+			if (Object.hasOwn(parsedValue, 'gpx')) {
+				let gpx = parser.parse(content).gpx as GPXBuildData;
+
+				file.setValue(gpx);
+
+				const name = gpx?.metadata?.name ?? uploadedFile?.name ?? '-';
+
+				gpxFileName.setValue(name);
+				gpxNameLocal = name;
+
+				uploading = false;
+
+				const pointsCount =
+					gpx.trk?.reduce((sum, trk) => {
+						return (
+							sum +
+								(trk.trkseg ?? []).reduce((segSum, seg) => segSum + (seg.trkpt?.length || 0), 0) ||
+							0
+						);
+					}, 0) || 0;
+
+				toast.success(m.filePoints({ count: pointsCount }));
+			} else {
+				toast.error(m.uploadErrorFailToUpload({ name: uploadedFile.name }));
+			}
+		} catch (err) {
+			toast.error(m.uploadErrorFailToUpload({ name: uploadedFile.name }));
+		} finally {
+			uploading = false;
+		}
+	};
+
+	const drop = async (
+		e: DragEvent & {
+			currentTarget: EventTarget & HTMLLabelElement;
+		}
+	) => {
+		if (disabled || !canUploadFiles) return;
+
+		e.preventDefault();
+
+		const droppedFile = e.dataTransfer?.files.item(0);
+
+		if (droppedFile !== null && droppedFile !== undefined) {
+			await onUpload(droppedFile);
+		}
+	};
+
+	const change = async (
+		e: Event & {
+			currentTarget: EventTarget & HTMLInputElement;
+		}
+	) => {
+		if (disabled) return;
+
+		const selectedFile = e.currentTarget.files?.item(0);
+
+		if (!selectedFile) return;
+
+		await onUpload(selectedFile);
+
+		(e.target as HTMLInputElement).value = '';
+	};
+
+	const canUploadFiles = $derived(!disabled && !uploading);
 
 	$effect(() => {
 		if (gpxNameLocal !== gpxFileName.value) {
@@ -110,17 +107,18 @@
 	});
 </script>
 
-{#if file.value === null}
+{#if file.value === undefined}
 	<div transition:slide>
-		<FileDropZone
-			{onUpload}
-			{onFileRejected}
-			maxFiles={1}
-			accept=".gpx"
-			fileCount={file.value !== null ? 1 : 0}
+		<label
+			ondragover={(e) => e.preventDefault()}
+			ondrop={drop}
+			for="fileUpload"
+			aria-disabled={!canUploadFiles}
+			class="border-border hover:bg-accent/25 flex w-full place-items-center justify-center rounded-lg border-2 border-dashed p-6 transition-all hover:cursor-pointer aria-disabled:opacity-50 aria-disabled:hover:cursor-not-allowed"
 		>
 			<div class="flex flex-col place-items-center justify-center gap-4">
 				<div
+					transition:fade
 					class="border-border text-muted-foreground flex size-14 place-items-center justify-center rounded-full border border-dashed"
 				>
 					<UploadIcon class="size-7" />
@@ -132,7 +130,16 @@
 					</span>
 				</div>
 			</div>
-		</FileDropZone>
+			<input
+				disabled={!canUploadFiles}
+				id="fileUpload"
+				accept=".gpx"
+				type="file"
+				onchange={change}
+				class="hidden"
+				aria-busy="true"
+			/>
+		</label>
 	</div>
 {:else}
 	<Card.Root>
@@ -145,9 +152,13 @@
 				variant="outline"
 				size="icon"
 				onclick={() => {
-					file.setValue(null);
-					waterSources.setValue(null);
-					selectedWaterSources.setSelectedWaterSources(null);
+					file.setValue(undefined);
+					tracks.setValue(undefined);
+					tracksBuffers.setValue(undefined);
+					overpassPolygons.setValue(undefined);
+					waterSources.setValue(undefined);
+					selectedWaterSources.setSelectedWaterSources(undefined);
+					uploading = false;
 				}}
 			>
 				<XIcon />

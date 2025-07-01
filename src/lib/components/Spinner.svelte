@@ -1,4 +1,14 @@
-<svg width="24" height="24" stroke="black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<script lang="ts">
+	let props = $props();
+</script>
+
+<svg
+	width="24"
+	height="24"
+	stroke={props.color ?? 'black'}
+	viewBox="0 0 24 24"
+	xmlns="http://www.w3.org/2000/svg"
+>
 	<style>
 		.spinner_V8m1 {
 			transform-origin: center;

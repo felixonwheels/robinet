@@ -10,7 +10,7 @@
 	import type { WayPoint } from '$lib/types';
 
 	async function download() {
-		if (file.value !== null) {
+		if (file.value !== undefined) {
 			const waypoints = waterSources.value
 				?.filter((source) => selectedWaterSources.value?.has(source.id))
 				.map((waterSource) => ({
