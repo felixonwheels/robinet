@@ -3,12 +3,20 @@
 
 	import { page } from '$app/state';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
+	import { m } from '$lib/paraglide/messages';
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
 
 	import '../app.css';
 
 	let { children } = $props();
 </script>
+
+<svelte:head>
+	<meta name="description" content={m.titleLead()} />
+	<meta property="og:title" content="robinet" />
+	<meta property="og:description" content={m.titleLead()} />
+	<meta property="og:image" content="https://fav.farm/💧" />
+</svelte:head>
 
 <ModeWatcher />
 
