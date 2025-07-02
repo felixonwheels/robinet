@@ -108,7 +108,18 @@
 </script>
 
 {#if file.value === undefined}
-	<div transition:slide>
+	<div
+		transition:slide
+		role="button"
+		class="focus-visible:outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg"
+		tabindex="0"
+		onkeydown={(e) => {
+			if ((e.key === 'Enter' || e.key === ' ') && canUploadFiles) {
+				e.preventDefault();
+				document.getElementById('fileUpload')?.click();
+			}
+		}}
+	>
 		<label
 			ondragover={(e) => e.preventDefault()}
 			ondrop={drop}

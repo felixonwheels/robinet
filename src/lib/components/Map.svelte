@@ -54,13 +54,19 @@
 
 <Card.Root class="w-full p-0">
 	<Card.Content class="p-0">
-		<MapLibre bind:map class="h-[55vh] rounded-xl" zoom={1} maxZoom={18} {style}>
+		<MapLibre
+			bind:map
+			class="h-[55vh] rounded-xl focus-visible:outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+			zoom={1}
+			maxZoom={18}
+			{style}
+		>
 			<NavigationControl />
 			<Projection type="globe" />
 			<Tracks />
 			<BufferSizeDropdown />
 			{#if overpassPolygons.value}
-				{#key bufferSize.value && overpassPolygons.value.length}
+				{#key bufferSize.value}
 					<WaterSources />
 				{/key}
 			{/if}

@@ -120,21 +120,27 @@
 	}
 }
 
-@media (prefers-color-scheme: dark) {
-	.maplibregl-ctrl-group {
-		background-color: var(--color-muted-foreground) !important;
-	}
+html.dark .maplibregl-ctrl-group {
+	background-color: var(--color-muted-foreground) !important;
+}
 
-	.maplibregl-ctrl-group button {
-		background-color: var(--color-muted-foreground) !important;
-		border-radius: 0.2rem;
-	}
+html.dark .maplibregl-ctrl-group button {
+	background-color: var(--color-muted-foreground) !important;
+	border-radius: 0.2rem;
+}
 
-	.maplibregl-ctrl-group button + button {
-		border-top: 0px solid transparent !important;
-	}
+html.dark .maplibregl-ctrl-group button + button {
+	border-top: 0px solid transparent !important;
+}
 
-	.maplibregl-ctrl-attrib {
-		background-color: var(--color-muted-foreground) !important;
-	}
+html.dark .maplibregl-ctrl-attrib {
+	background-color: var(--color-muted-foreground) !important;
+}
+
+.maplibregl-ctrl-group button:focus,
+.maplibregl-ctrl-attrib-button:focus,
+.maplibregl-ctrl-group button:focus {
+	outline: none;
+	border-color: var(--ring) !important;
+	box-shadow: 0 0 3px 3px var(--ring) !important;
 }

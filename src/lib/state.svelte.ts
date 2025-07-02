@@ -1,6 +1,6 @@
 import type { Feature, MultiLineString, MultiPolygon, Polygon } from 'geojson';
 
-import type { GPXBuildData, WaterSource } from './types';
+import type { GPXBuildData, WaterSource } from '$lib/types';
 
 let fileValue = $state<GPXBuildData>();
 
