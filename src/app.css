@@ -144,3 +144,8 @@ html.dark .maplibregl-ctrl-attrib {
 	border-color: var(--ring) !important;
 	box-shadow: 0 0 3px 3px var(--ring) !important;
 }
+
+.maplibregl-popup-content {
+	padding: 0 !important;
+	border-radius: calc(var(--radius) /* 0.25rem = 4px */ + 4px) !important;
+}

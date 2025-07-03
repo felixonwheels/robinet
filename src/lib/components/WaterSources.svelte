@@ -2,11 +2,11 @@
 	import { booleanPointInPolygon } from '@turf/turf';
 	import type { Polygon } from 'geojson';
 	import { onMount } from 'svelte';
-	import { CustomControl, Marker } from 'svelte-maplibre-gl';
+	import { CustomControl, Marker, Popup } from 'svelte-maplibre-gl';
 
 	import { api } from '$lib/api';
 	import Spinner from '$lib/components/Spinner.svelte';
-	import * as HoverCard from '$lib/components/ui/hover-card/index.js';
+	import * as Card from '$lib/components/ui/card/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { m } from '$lib/paraglide/messages';
 	import {
@@ -18,6 +18,9 @@
 
 	let controller = new AbortController();
 	let signal = controller.signal;
+
+	let hoveredMarker = $state<number>();
+	let hoverTimeout: ReturnType<typeof setTimeout>;
 
 	let promise = $state(
 		api()
@@ -68,44 +71,66 @@
 		{#if !(isNaN(waterSource.lon) || isNaN(waterSource.lat))}
 			<Marker lnglat={{ lng: waterSource.lon, lat: waterSource.lat }}>
 				{#snippet content()}
-					<HoverCard.Root>
-						<HoverCard.Trigger>
-							<div class="text-center leading-none">
-								<div
-									role="button"
-									tabindex="0"
-									class="text-xl"
-									onclick={() => selectedWaterSources.toggleWaterSource(waterSource.id)}
-									onkeydown={(e) => {
-										if (e.key === 'Enter' || e.key === ' ') {
-											selectedWaterSources.toggleWaterSource(waterSource.id);
-										}
-									}}
-								>
-									{#if selectedWaterSources.value?.has(waterSource.id)}
-										<span>💧</span>
-									{:else}
-										<span class="grayscale">💧</span>
-									{/if}
-								</div>
-							</div>
-						</HoverCard.Trigger>
-						<HoverCard.Content>
-							<Table.Root>
-								<Table.Caption>{m.waterSourceInfo()}</Table.Caption>
-								<Table.Body>
-									{#each Object.entries(waterSource.tags) as [key, value]}
-										<Table.Row>
-											<Table.Cell class="font-medium">{key}</Table.Cell>
-											<Table.Cell>{value}</Table.Cell>
-										</Table.Row>
-									{/each}
-								</Table.Body>
-							</Table.Root>
-							<div></div>
-						</HoverCard.Content>
-					</HoverCard.Root>
+					<div
+						role="button"
+						tabindex="0"
+						class="text-center leading-none text-xl"
+						onmouseenter={() => {
+							clearTimeout(hoverTimeout);
+							hoveredMarker = waterSource.id;
+						}}
+						onmouseleave={() => {
+							hoverTimeout = setTimeout(() => (hoveredMarker = undefined), 150);
+						}}
+						onclick={() => selectedWaterSources.toggleWaterSource(waterSource.id)}
+						onkeydown={(e) => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								selectedWaterSources.toggleWaterSource(waterSource.id);
+							}
+						}}
+					>
+						{#if selectedWaterSources.value?.has(waterSource.id)}
+							<span>💧</span>
+						{:else}
+							<span class="grayscale">💧</span>
+						{/if}
+					</div>
 				{/snippet}
+				{#if hoveredMarker === waterSource.id}
+					<Popup
+						open={true}
+						closeButton={false}
+						closeOnClick={false}
+						lnglat={{ lng: waterSource.lon, lat: waterSource.lat }}
+					>
+						<div
+							role="application"
+							onmouseenter={() => {
+								clearTimeout(hoverTimeout);
+								hoveredMarker = waterSource.id;
+							}}
+							onmouseleave={() => {
+								hoverTimeout = setTimeout(() => (hoveredMarker = undefined), 150);
+							}}
+						>
+							<Card.Root>
+								<Card.Content>
+									<Table.Root>
+										<Table.Caption>{m.waterSourceInfo()}</Table.Caption>
+										<Table.Body>
+											{#each Object.entries(waterSource.tags) as [key, value]}
+												<Table.Row>
+													<Table.Cell class="font-medium">{key}</Table.Cell>
+													<Table.Cell>{value}</Table.Cell>
+												</Table.Row>
+											{/each}
+										</Table.Body>
+									</Table.Root>
+								</Card.Content>
+							</Card.Root>
+						</div>
+					</Popup>
+				{/if}
 			</Marker>
 		{/if}
 	{/each}
