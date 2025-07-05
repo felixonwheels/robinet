@@ -8,7 +8,7 @@
 	import { m } from '$lib/paraglide/messages';
 	import { bufferSize, file } from '$lib/state.svelte';
 
-	let selectedBufferSize = $state('1');
+	let selectedBufferSize = $state('0.5');
 	let bufferSizeDropdownOpened = $state(false);
 </script>
 
@@ -38,7 +38,7 @@
 							}}
 							bind:value={selectedBufferSize}
 						>
-							{#each [0.5, 1, 2, 5, 10] as step}
+							{#each [0.2, 0.5, 1, 2, 5, 10] as step}
 								<DropdownMenu.RadioItem value={step.toString()}>
 									{step} km
 								</DropdownMenu.RadioItem>

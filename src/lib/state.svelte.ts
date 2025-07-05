@@ -35,7 +35,7 @@ export const tracks = {
 	}
 };
 
-let bufferSizeValue = $state(1);
+let bufferSizeValue = $state(0.5);
 
 export const bufferSize = {
 	get value() {
