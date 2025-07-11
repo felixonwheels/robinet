@@ -125,12 +125,12 @@
 			ondrop={drop}
 			for="fileUpload"
 			aria-disabled={!canUploadFiles}
-			class="border-border hover:bg-accent/25 flex w-full place-items-center justify-center rounded-lg border-2 border-dashed p-6 transition-all hover:cursor-pointer aria-disabled:opacity-50 aria-disabled:hover:cursor-not-allowed"
+			class="border-border border-3 border-dashed hover:bg-accent/80 flex w-full place-items-center justify-center rounded-lg p-6 transition-all hover:cursor-pointer aria-disabled:opacity-50 aria-disabled:hover:cursor-not-allowed"
 		>
 			<div class="flex flex-col place-items-center justify-center gap-4">
 				<div
 					transition:fade
-					class="border-border text-muted-foreground flex size-14 place-items-center justify-center rounded-full border border-dashed"
+					class="border-border text-muted-foreground flex size-14 place-items-center justify-center rounded-full border"
 				>
 					<UploadIcon class="size-7" />
 				</div>
