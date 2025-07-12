@@ -12,9 +12,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
-		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run",
-		"deploy": "pnpx wrangler pages deploy build"
+		"deploy": "pnpx wrangler pages deploy build",
+		"test": "pnpm exec playwright test"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.3.1",
@@ -22,6 +21,7 @@
 		"@inlang/paraglide-js": "^2.2.0",
 		"@internationalized/date": "^3.8.2",
 		"@lucide/svelte": "^0.525.0",
+		"@playwright/test": "^1.54.1",
 		"@svelte-maplibre-gl/pmtiles": "^1.0.0",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/kit": "^2.22.2",
@@ -35,6 +35,7 @@
 		"@turf/turf": "^7.2.0",
 		"@types/file-saver": "^2.0.7",
 		"@types/geojson": "^7946.0.16",
+		"@types/node": "^24.0.13",
 		"bits-ui": "^2.8.10",
 		"clsx": "^2.1.1",
 		"eslint": "^9.30.1",
@@ -62,8 +63,7 @@
 		"typescript-eslint": "^8.35.1",
 		"vaul-svelte": "1.0.0-next.7",
 		"vite": "^6.3.5",
-		"vite-plugin-devtools-json": "^0.2.1",
-		"vitest": "^3.2.4"
+		"vite-plugin-devtools-json": "^0.2.1"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
