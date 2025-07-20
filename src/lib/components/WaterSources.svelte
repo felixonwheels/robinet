@@ -30,7 +30,7 @@
 					booleanPointInPolygon([source.lon, source.lat], tracksBuffers.value?.geometry as Polygon)
 				);
 
-				waterSources.setValue(trueWaterSources);
+				waterSources.value = trueWaterSources;
 				selectedWaterSources.setSelectedWaterSources(trueWaterSources);
 
 				return trueWaterSources;
@@ -39,7 +39,7 @@
 
 	onMount(() => {
 		return () => {
-			waterSources.setValue(undefined);
+			waterSources.value = undefined;
 			selectedWaterSources.setSelectedWaterSources(undefined);
 
 			controller.abort();

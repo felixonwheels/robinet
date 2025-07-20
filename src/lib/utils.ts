@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { XMLParser } from 'fast-xml-parser';
-import type { Feature, Polygon, Position } from 'geojson';
+import type { Position } from 'geojson';
 import { twMerge } from 'tailwind-merge';
 
 import type { Bounds } from '$lib/types';

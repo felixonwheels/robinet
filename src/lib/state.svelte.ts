@@ -8,7 +8,7 @@ export const file = {
 	get value() {
 		return fileValue;
 	},
-	setValue(value: GPXBuildData | undefined) {
+	set value(value: GPXBuildData | undefined) {
 		fileValue = value;
 	}
 };
@@ -19,7 +19,7 @@ export const gpxFileName = {
 	get value() {
 		return gpxFileNameValue;
 	},
-	setValue(value: string) {
+	set value(value: string | undefined) {
 		gpxFileNameValue = value;
 	}
 };
@@ -30,19 +30,33 @@ export const tracks = {
 	get value() {
 		return tracksValue;
 	},
-	setValue(value: MultiLineString | undefined) {
+	set value(value: MultiLineString | undefined) {
 		tracksValue = value;
 	}
 };
 
-let bufferSizeValue = $state(0.5);
+let trackBBoxMinLengthValue = $state<number>();
+
+export const trackBBoxMinLength = {
+	get value() {
+		return trackBBoxMinLengthValue;
+	},
+	set value(value: number | undefined) {
+		trackBBoxMinLengthValue = value;
+	}
+};
+
+let bufferSizeValue = $state('0.2');
 
 export const bufferSize = {
 	get value() {
 		return bufferSizeValue;
 	},
-	setValue(value: number) {
+	set value(value: string) {
 		bufferSizeValue = value;
+	},
+	reset() {
+		bufferSizeValue = '0.2';
 	}
 };
 
@@ -52,7 +66,7 @@ export const tracksBuffers = {
 	get value() {
 		return tracksBuffersValue;
 	},
-	setValue(value: Feature<Polygon | MultiPolygon> | undefined) {
+	set value(value: Feature<Polygon | MultiPolygon> | undefined) {
 		tracksBuffersValue = value;
 	}
 };
@@ -63,7 +77,7 @@ export const overpassPolygons = {
 	get value() {
 		return overpassPolygonsValue;
 	},
-	setValue(value: string[] | undefined) {
+	set value(value: string[] | undefined) {
 		overpassPolygonsValue = value;
 	}
 };
@@ -74,7 +88,7 @@ export const waterSources = {
 	get value() {
 		return waterSourcesValue;
 	},
-	setValue(value: WaterSource[] | undefined) {
+	set value(value: WaterSource[] | undefined) {
 		waterSourcesValue = value;
 	}
 };

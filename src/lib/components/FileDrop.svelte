@@ -9,10 +9,12 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { m } from '$lib/paraglide/messages.js';
 	import {
+		bufferSize,
 		file,
 		gpxFileName,
 		overpassPolygons,
 		selectedWaterSources,
+		trackBBoxMinLength,
 		tracks,
 		tracksBuffers,
 		waterSources
@@ -37,11 +39,11 @@
 			if (Object.hasOwn(parsedValue, 'gpx')) {
 				let gpx = parser.parse(content).gpx as GPXBuildData;
 
-				file.setValue(gpx);
+				file.value = gpx;
 
 				const name = gpx?.metadata?.name ?? uploadedFile?.name ?? '-';
 
-				gpxFileName.setValue(name);
+				gpxFileName.value = name;
 				gpxNameLocal = name;
 
 				uploading = false;
@@ -102,7 +104,7 @@
 
 	$effect(() => {
 		if (gpxNameLocal !== gpxFileName.value) {
-			gpxFileName.setValue(gpxNameLocal);
+			gpxFileName.value = gpxNameLocal;
 		}
 	});
 </script>
@@ -163,11 +165,13 @@
 				variant="outline"
 				size="icon"
 				onclick={() => {
-					file.setValue(undefined);
-					tracks.setValue(undefined);
-					tracksBuffers.setValue(undefined);
-					overpassPolygons.setValue(undefined);
-					waterSources.setValue(undefined);
+					file.value = undefined;
+					tracks.value = undefined;
+					tracksBuffers.value = undefined;
+					bufferSize.reset();
+					trackBBoxMinLength.value = undefined;
+					overpassPolygons.value = undefined;
+					waterSources.value = undefined;
 					selectedWaterSources.setSelectedWaterSources(undefined);
 					uploading = false;
 				}}

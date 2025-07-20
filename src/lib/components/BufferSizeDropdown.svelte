@@ -6,9 +6,8 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { m } from '$lib/paraglide/messages';
-	import { bufferSize, file } from '$lib/state.svelte';
+	import { bufferSize, file, trackBBoxMinLength } from '$lib/state.svelte';
 
-	let selectedBufferSize = $state('0.5');
 	let bufferSizeDropdownOpened = $state(false);
 </script>
 
@@ -32,13 +31,8 @@
 					<DropdownMenu.Group>
 						<DropdownMenu.Label>{m.bufferSize()}</DropdownMenu.Label>
 						<DropdownMenu.Separator />
-						<DropdownMenu.RadioGroup
-							onValueChange={(selectedBufferSize) => {
-								bufferSize.setValue(+selectedBufferSize);
-							}}
-							bind:value={selectedBufferSize}
-						>
-							{#each [0.2, 0.5, 1, 2, 5, 10] as step}
+						<DropdownMenu.RadioGroup bind:value={bufferSize.value}>
+							{#each [0.2, 0.5, 1, 2, 5, 10].filter((v) => v <= (trackBBoxMinLength.value ?? 10) * 100) as step}
 								<DropdownMenu.RadioItem value={step.toString()}>
 									{step} km
 								</DropdownMenu.RadioItem>
