@@ -37,6 +37,7 @@
 		"@types/geojson": "^7946.0.16",
 		"bits-ui": "^2.11.5",
 		"clsx": "^2.1.1",
+		"cypress": "^15.4.0",
 		"eslint": "^9.37.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.12.4",
@@ -67,6 +68,7 @@
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
+			"cypress",
 			"esbuild"
 		]
 	}
