@@ -1,35 +1,33 @@
 <a id="readme-top"></a>
 
 <div align="center">
-  <a href="https://github.com/omnitrogen/robinet">
-    <span style="font-size:6rem">💧</span>
-  </a>
+<a href="https://github.com/omnitrogen/robinet">
+<img src="./static/droplet.png" alt="Water droplet emoji" width="100" height="100">
+</a>
 
-<h1 align="center">
-robinet
-</h1>
+<h1 align="center">robinet</h1>
 
 <p align="center">
-    add water sources around your GPX track as waypoints and stay hydrated
-    <br />
-    <br />
-    <a href="https://github.com/omnitrogen/rustine/issues/new?labels=bug">Report Bug</a>
-    ·
-    <a href="https://github.com/omnitrogen/rustine/issues/new?labels=enhancement">Request Feature</a>
-  </p>
+add water sources around your GPX track as waypoints and stay hydrated
+<br />
+<br />
+<a href="https://github.com/omnitrogen/rustine/issues/new?labels=bug">Report Bug</a>
+·
+<a href="https://github.com/omnitrogen/rustine/issues/new?labels=enhancement">Request Feature</a>
+</p>
 </div>
 
 <details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#built-with">Built With</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
+<summary>Table of Contents</summary>
+<ol>
+<li><a href="#built-with">Built With</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#contact">Contact</a></li>
+</ol>
 </details>
 
-## Built With
+## 🛠️ Built With
 
 ### UI
 
@@ -53,7 +51,7 @@ robinet
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Contributing
+## 🤜🤛 Contributing
 
 Contributions are what make the open source community such an amazing place to
 learn, inspire, and create. Any contributions you make are **greatly
@@ -71,19 +69,19 @@ create a pull request. You can also simply open an issue with the tag
 
 ### Top contributors:
 
-<a href="https://github.com/omnitrogen/rustine/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=omnitrogen/robinet" alt="contrib.rocks image" />
+<a href="https://github.com/omnitrogen/robinet/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=felixonwheels/robinet" alt="contrib.rocks image" />
 </a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## License
+## 🧑‍⚖️ License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Contact
+## 📬 Contact
 
 Félix Defrance - felixgif@gmail.com
 
